@@ -28,29 +28,42 @@ public class UserDao implements Dao<Integer, UserEntity> {
 
     @SneakyThrows
     public Optional<UserEntity> findByEmailAndPassword(String email, String password) {
-        var connection = ConnectionManager.get();
-        var preparedStatement = connection.prepareStatement(GET_USER_BY_EMAIL);
-        preparedStatement.setString(1, email);
-        preparedStatement.setString(2, password);
+        try (var connection = ConnectionManager.getConnection();
+             var preparedStatement = connection.prepareStatement(GET_USER_BY_EMAIL)) {
 
-        var resultSet = preparedStatement.executeQuery();
-        UserEntity userEntity = null;
+            preparedStatement.setString(1, email);
+            preparedStatement.setString(2, password);
 
-        if (resultSet.next()) {
-            userEntity = buildEntity(resultSet);
+            var resultSet = preparedStatement.executeQuery();
+            UserEntity userEntity = null;
+
+            if (resultSet.next()) {
+                userEntity = buildEntity(resultSet);
+            }
+
+
+            return Optional.ofNullable(userEntity);
         }
 
-        return Optional.ofNullable(userEntity);
     }
 
-    private UserEntity buildEntity(ResultSet resultSet) throws SQLException {
-        return UserEntity.builder()
-                .id(resultSet.getObject("id", Integer.class))
-                .name(resultSet.getObject("name", String.class))
-                .birthday(resultSet.getObject("birthday", Date.class).toLocalDate())
-                .email(resultSet.getObject("email", String.class))
-                .password(resultSet.getObject("password", String.class))
-                .build();
+    @Override
+    @SneakyThrows
+    public UserEntity save(UserEntity userEntity) {
+
+        try (var connection = ConnectionManager.getConnection();
+             var preparedStatement = connection.prepareStatement(SAVE_SQL)) {
+            preparedStatement.setObject(1, userEntity.getName());
+            preparedStatement.setObject(2, userEntity.getBirthday());
+            preparedStatement.setObject(3, userEntity.getEmail());
+            preparedStatement.setObject(4, userEntity.getPassword());
+
+            preparedStatement.executeUpdate();
+
+
+            return null;
+        }
+
     }
 
     @Override
@@ -73,32 +86,17 @@ public class UserDao implements Dao<Integer, UserEntity> {
 
     }
 
-    @Override
-    @SneakyThrows
-    public UserEntity save(UserEntity userEntity) {
-
-        try (var connection = ConnectionManager.get()) {
-            var preparedStatement = connection.prepareStatement(SAVE_SQL);
-            preparedStatement.setObject(1, userEntity.getName());
-            preparedStatement.setObject(2, userEntity.getBirthday());
-            preparedStatement.setObject(3, userEntity.getEmail());
-            preparedStatement.setObject(4, userEntity.getPassword());
-
-            preparedStatement.executeUpdate();
-
-
-            return null;
-        }
-
-//            var generatedKeys = preparedStatement.getGeneratedKeys();
-//            generatedKeys.next();
-//            entity.setId(generatedKeys.getObject("id", Integer.class));
-
-
-    }
-
-
     public static UserDao getInstance() {
         return INSTANCE;
+    }
+
+    private UserEntity buildEntity(ResultSet resultSet) throws SQLException {
+        return UserEntity.builder()
+                .id(resultSet.getObject("id", Integer.class))
+                .name(resultSet.getObject("name", String.class))
+                .birthday(resultSet.getObject("birthday", Date.class).toLocalDate())
+                .email(resultSet.getObject("email", String.class))
+                .password(resultSet.getObject("password", String.class))
+                .build();
     }
 }
