@@ -16,12 +16,12 @@ public class UserService {
 
     private static final UserService INSTANCE = new UserService();
     private final CreateUserValidator createUserValidator = CreateUserValidator.getInstance();
-    private final UserDao personDao = UserDao.getInstance();
+    private final UserDao userDao = UserDao.getInstance();
     private final CreateUserMapper createUserMapper = CreateUserMapper.getInstance();
     private final UserMapper userMapper = UserMapper.getInstance();
 
     public Optional<UserDto> login(String email, String password) {
-        return personDao.findByEmailAndPassword(email, password).map(userMapper::mapFrom);
+        return userDao.findByEmailAndPassword(email, password).map(userMapper::mapFrom);
 
     }
 
@@ -32,7 +32,7 @@ public class UserService {
         }
 
         var userEntity = createUserMapper.mapFrom(userDto);
-        personDao.save(userEntity);
+        userDao.save(userEntity);
 
         return userEntity.getId();
 

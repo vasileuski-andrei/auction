@@ -14,7 +14,7 @@ import java.io.IOException;
 @WebServlet("/registration")
 public class RegistrationServlet extends HttpServlet {
 
-    private final UserService personService = UserService.getInstance();
+    private final UserService userService = UserService.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -31,7 +31,7 @@ public class RegistrationServlet extends HttpServlet {
                 .build();
 
         try {
-            personService.create(userDto);
+            userService.create(userDto);
             resp.sendRedirect("/login");
         } catch (ValidationException e) {
             req.setAttribute("errors", e.getErrors());
