@@ -15,7 +15,7 @@ public class CreateUserMapper implements Mapper<CreateUserDto, UserEntity> {
     public UserEntity mapFrom(CreateUserDto object) {
         return UserEntity.builder()
                 .name(object.getName())
-                .birthday(LocalDateFormatter.format(object.getBirthday()))
+                .birthDate(LocalDateFormatter.format(object.getBirthday()))
                 .email(object.getEmail())
                 .password(object.getPassword())
                 .build();

@@ -25,7 +25,7 @@
                 <table cellspacing="0">
                     <tr>
                         <th>ID</th>
-                        <th>NAME</th>
+                        <th>LOT</th>
                         <th>OWNER</th>
                         <th>STATUS</th>
                     </tr>
@@ -33,7 +33,7 @@
 
                         <tr>
                             <td>${lot.id}</td>
-                            <td>${lot.name}</td>
+                            <td><a href="/index">${lot.lotName}</a></td>
                             <td>${lot.owner}</td>
                             <td>${lot.lotStatus}</td>
                         </tr>

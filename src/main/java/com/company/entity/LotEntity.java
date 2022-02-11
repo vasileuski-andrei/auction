@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class LotEntity {
 
     private Integer id;
-    private String name;
+    private String lotName;
     private String owner;
     private LotStatus lotStatus;
 }

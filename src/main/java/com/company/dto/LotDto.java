@@ -1,6 +1,5 @@
 package com.company.dto;
 
-import com.company.entity.LotStatus;
 import lombok.Builder;
 import lombok.Value;
 
@@ -8,9 +7,9 @@ import lombok.Value;
 @Builder
 public class LotDto {
 
-    private Integer id;
-    private String name;
-    private String owner;
-    private String lotStatus;
+    Integer id;
+    String lotName;
+    String owner;
+    String lotStatus;
 
 }

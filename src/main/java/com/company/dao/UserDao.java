@@ -13,12 +13,12 @@ public class UserDao implements Dao<Integer, UserEntity> {
     private static final UserDao INSTANCE = new UserDao();
 
     private static final String SAVE_SQL = """
-            INSERT INTO users (name, birthday, email, password)
+            INSERT INTO users (name, birth_date, email, password)
             VALUES (?, ?, ?, ?);
             """;
 
     private static final String GET_USER_BY_EMAIL = """
-            SELECT id, name, birthday, email, password
+            SELECT id, name, birth_date, email, password
             FROM users
             WHERE email = ? AND password = ?
             """;
@@ -54,7 +54,7 @@ public class UserDao implements Dao<Integer, UserEntity> {
         try (var connection = ConnectionManager.getConnection();
              var preparedStatement = connection.prepareStatement(SAVE_SQL)) {
             preparedStatement.setObject(1, userEntity.getName());
-            preparedStatement.setObject(2, userEntity.getBirthday());
+            preparedStatement.setObject(2, userEntity.getBirthDate());
             preparedStatement.setObject(3, userEntity.getEmail());
             preparedStatement.setObject(4, userEntity.getPassword());
 
@@ -94,7 +94,7 @@ public class UserDao implements Dao<Integer, UserEntity> {
         return UserEntity.builder()
                 .id(resultSet.getObject("id", Integer.class))
                 .name(resultSet.getObject("name", String.class))
-                .birthday(resultSet.getObject("birthday", Date.class).toLocalDate())
+                .birthDate(resultSet.getObject("birth_date", Date.class).toLocalDate())
                 .email(resultSet.getObject("email", String.class))
                 .password(resultSet.getObject("password", String.class))
                 .build();

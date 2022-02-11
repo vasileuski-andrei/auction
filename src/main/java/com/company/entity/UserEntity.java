@@ -14,7 +14,7 @@ import java.time.LocalDate;
 public class UserEntity {
     private Integer id;
     private String name;
-    private LocalDate birthday;
+    private LocalDate birthDate;
     private String email;
     private String password;
 }

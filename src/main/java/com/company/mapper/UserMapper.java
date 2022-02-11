@@ -1,6 +1,5 @@
 package com.company.mapper;
 
-import com.company.dto.CreateUserDto;
 import com.company.dto.UserDto;
 import com.company.entity.UserEntity;
 
@@ -16,7 +15,7 @@ public class UserMapper implements Mapper <UserEntity, UserDto> {
         return UserDto.builder()
                 .id(object.getId())
                 .name(object.getName())
-                .birthday(object.getBirthday())
+                .birthday(object.getBirthDate())
                 .email(object.getEmail())
                 .build();
 

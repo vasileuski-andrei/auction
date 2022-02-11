@@ -2,11 +2,9 @@ package com.company.service;
 
 import com.company.dao.LotDao;
 import com.company.dto.LotDto;
-import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.*;
 import static lombok.AccessLevel.PRIVATE;
@@ -20,7 +18,7 @@ public class LotService {
     public List<LotDto> getAllLot() {
         return lotDao.findAll().stream().map(lotDao -> LotDto.builder()
                 .id(lotDao.getId())
-                .name(lotDao.getName())
+                .lotName(lotDao.getLotName())
                 .owner(lotDao.getOwner())
                 .lotStatus(String.valueOf(lotDao.getLotStatus()))
                 .build()).collect(toList());

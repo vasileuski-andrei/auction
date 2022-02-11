@@ -2,12 +2,10 @@ package com.company.dao;
 
 import com.company.entity.LotEntity;
 import com.company.entity.LotStatus;
-import com.company.entity.UserEntity;
 import com.company.util.ConnectionManager;
-import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
-import java.sql.Connection;
+
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
@@ -78,8 +76,8 @@ public class LotDao implements Dao<Integer, LotEntity> {
 
         return LotEntity.builder()
                 .id(resultSet.getObject("id", Integer.class))
-                .name(resultSet.getObject("name", String.class))
-                .owner(resultSet.getObject("email", String.class))
+                .lotName(resultSet.getObject("lot_name", String.class))
+                .owner(resultSet.getObject("name", String.class))
                 .lotStatus(LotStatus.valueOf(resultSet.getObject("lot_status", String.class)))
                 .build();
     }
