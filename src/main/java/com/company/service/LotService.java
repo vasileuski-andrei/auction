@@ -21,6 +21,8 @@ public class LotService {
         return lotDao.findAll().stream().map(lotDao -> LotDto.builder()
                 .id(lotDao.getId())
                 .name(lotDao.getName())
+                .owner(lotDao.getOwner())
+                .lotStatus(String.valueOf(lotDao.getLotStatus()))
                 .build()).collect(toList());
 
     }

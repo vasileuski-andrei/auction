@@ -34,8 +34,8 @@
                         <tr>
                             <td>${lot.id}</td>
                             <td>${lot.name}</td>
-                            <td>100%</td>
-                            <td>Нет</td>
+                            <td>${lot.owner}</td>
+                            <td>${lot.lotStatus}</td>
                         </tr>
 
                     </c:forEach>
