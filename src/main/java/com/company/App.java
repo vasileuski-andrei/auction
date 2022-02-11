@@ -1,19 +1,24 @@
 package com.company;
 
+import com.company.dao.LotDao;
 import com.company.dao.UserDao;
+import com.company.entity.LotEntity;
+
+import java.util.List;
 
 /**
  * Hello world!
  */
 public class App {
 
-    private static final String SQL = """
-            SELECT *
-            FROM airport
-            """;
-
     public static void main(String[] args) {
-//        UserDao.getInstance().save2();
+        try {
+            var all = LotDao.getInstance().findAll();
+            System.out.println(all.get(0).toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
     }
 }
