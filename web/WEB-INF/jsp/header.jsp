@@ -7,7 +7,16 @@
         <div class="top-header-container">
             <!--logo--><a class="logo" href="index"><img src="img/logo.png"></a>
             <!--top-menu-->
-            <nav class="top-menu"><a href="${pageContext.request.contextPath}/market">market</a><a href="#">cashbox</a><a href="${pageContext.request.contextPath}/add-new-lot">add new lot</a><a href="#">дилеры</a><a href="#">контакты</a></nav>
+            <nav class="top-menu">
+                <a href="${pageContext.request.contextPath}/market">market</a>
+                <a href="${pageContext.request.contextPath}/add-new-lot">add new lot</a>
+                <a href="#">cashbox</a>
+                <c:if test="${sessionScope.user != null}" >
+                    <a href="#">profile</a>
+                </c:if>
+
+
+            </nav>
             <!--contact-panel-->
             <div class="contact-panel">
                 <!--cp-wrapper-elements-->
@@ -49,6 +58,10 @@
             <div class="header-description">Информация о магазине</div>
         </div>
         <!--crumbs-->
-        <div class="crumbs"><a href="#">Главная</a><a href="#">О компании</a><span>Гарантия и сервис</span></div>
+        <div class="crumbs">
+            <a href="#">main page</a>
+            <a href="#">market</a>
+<%--            <span>Гарантия и сервис</span>--%>
+        </div>
     </div>
 </header>

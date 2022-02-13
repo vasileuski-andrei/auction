@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html lang="ru">
 <head>
@@ -20,7 +20,7 @@
         <!--first-section-->
         <div class="first-section">
 
-            <form action="/login" method="post">
+            <form action="${pageContext.request.contextPath}/login" method="post">
                 <label for="email">Email:
                     <input type="text" name="email" id="email" value="${param.email}" required>
                 </label><br>
@@ -28,7 +28,7 @@
                     <input type="password" name="password" id="password" required>
                 </label><br>
                 <button type="submit">Login</button>
-                <a href="/registration">Sign up</a>
+                <a href="${pageContext.request.contextPath}/registration">Sign up</a>
 
                 <c:if test="${param.fail != null}">
                     <div>
