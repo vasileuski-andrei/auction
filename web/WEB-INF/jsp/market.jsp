@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html lang="ru">
 <head>
@@ -27,14 +27,18 @@
                         <th>ID</th>
                         <th>LOT</th>
                         <th>OWNER</th>
+                        <th>START PRICE</th>
+                        <th>LAST BET</th>
                         <th>STATUS</th>
                     </tr>
                     <c:forEach var="lot" items="${requestScope.lots}">
 
                         <tr>
                             <td>${lot.id}</td>
-                            <td><a href="/index">${lot.lotName}</a></td>
+                            <td><a href="${pageContext.request.contextPath}/index">${lot.lotName}</a></td>
                             <td>${lot.owner}</td>
+                            <td>${lot.startPrice} $</td>
+                            <td>${lot.id}</td>
                             <td>${lot.lotStatus}</td>
                         </tr>
 

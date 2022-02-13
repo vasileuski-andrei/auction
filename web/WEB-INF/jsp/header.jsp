@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <header class="header">
     <!--common-header-wrapper-->
@@ -7,7 +7,7 @@
         <div class="top-header-container">
             <!--logo--><a class="logo" href="index"><img src="img/logo.png"></a>
             <!--top-menu-->
-            <nav class="top-menu"><a href="/market">market</a><a href="#">cashbox</a><a href="#">доставка</a><a href="#">дилеры</a><a href="#">контакты</a></nav>
+            <nav class="top-menu"><a href="${pageContext.request.contextPath}/market">market</a><a href="#">cashbox</a><a href="${pageContext.request.contextPath}/add-new-lot">add new lot</a><a href="#">дилеры</a><a href="#">контакты</a></nav>
             <!--contact-panel-->
             <div class="contact-panel">
                 <!--cp-wrapper-elements-->
@@ -19,8 +19,8 @@
                     </div>
                     <div class="contact-links">
                         <c:if test="${sessionScope.user == null}" >
-                            <div><a href="/registration">Sign up</a></div>
-                            <div><a href="/login">Sign in</a></div>
+                            <div><a href="${pageContext.request.contextPath}/registration">Sign up</a></div>
+                            <div><a href="${pageContext.request.contextPath}/login">Sign in</a></div>
                         </c:if>
 
                         <c:if test="${sessionScope.user != null}" >

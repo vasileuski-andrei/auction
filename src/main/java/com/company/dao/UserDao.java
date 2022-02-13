@@ -49,7 +49,7 @@ public class UserDao implements Dao<Integer, UserEntity> {
 
     @Override
     @SneakyThrows
-    public UserEntity save(UserEntity userEntity) {
+    public void save(UserEntity userEntity) {
 
         try (var connection = ConnectionManager.getConnection();
              var preparedStatement = connection.prepareStatement(SAVE_SQL)) {
@@ -60,8 +60,6 @@ public class UserDao implements Dao<Integer, UserEntity> {
 
             preparedStatement.executeUpdate();
 
-
-            return null;
         }
 
     }
