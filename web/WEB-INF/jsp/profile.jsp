@@ -34,9 +34,14 @@
                         <button class="login100-form-btn">Delete account</button>
                     </div>
 
-                    <c:if test="${param.fail != null}">
+                    <c:if test="${param.incorrectPassword != null}">
                         <div>
-                            <span>Incorrect password</span>
+                            <span class="alert-message">Incorrect password</span>
+                        </div>
+                    </c:if>
+                    <c:if test="${param.sqlexception != null}">
+                        <div>
+                            <span class="alert-message">Your account hasn't been deleted. Probably you have some lot in the market.</span>
                         </div>
                     </c:if>
 

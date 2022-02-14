@@ -93,17 +93,17 @@ public class UserDao implements Dao<Integer, UserEntity> {
         return Optional.empty();
     }
 
-    @SneakyThrows
     @Override
-    public boolean delete(Integer id) {
+    public void delete(Integer id) throws SQLException {
 
         try (var connection = ConnectionManager.getConnection();
              var preparedStatement = connection.prepareStatement(DELETE_USER_SQL)) {
 
             preparedStatement.setObject(1, id);
-            preparedStatement.executeUpdate();
+            var i = preparedStatement.executeUpdate();
+
         }
-        return false;
+
     }
 
     @Override

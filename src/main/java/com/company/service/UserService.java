@@ -10,6 +10,7 @@ import com.company.validator.CreateUserValidator;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
 
+import java.sql.SQLException;
 import java.util.Optional;
 import static lombok.AccessLevel.PRIVATE;
 
@@ -40,8 +41,7 @@ public class UserService {
 
     }
 
-
-    public void delete(Integer id) {
+    public void delete(Integer id) throws SQLException {
         userDao.delete(id);
     }
 

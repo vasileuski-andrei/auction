@@ -417,3 +417,8 @@ html, body {
   width: 85px;
   vertical-align: middle;
 }
+
+.alert-message {
+  color: #c80000;
+  margin-top: 10px;
+}

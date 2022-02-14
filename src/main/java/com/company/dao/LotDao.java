@@ -71,8 +71,8 @@ public class LotDao implements Dao<Integer, LotEntity> {
     }
 
     @Override
-    public boolean delete(Integer id) {
-        return false;
+    public void delete(Integer id) {
+
     }
 
     @Override

@@ -9,7 +9,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+
 import java.io.IOException;
+import java.sql.SQLException;
 
 import static com.company.util.UrlPath.*;
 
@@ -23,13 +25,21 @@ public class DeleteUserServlet extends HttpServlet {
         var user = (UserDto) req.getSession().getAttribute("user");
         var userId = user.getId();
 
-        if (req.getParameter("password").equals(userService.getPassById(userId))) {
-            userService.delete(userId);
-            req.getSession().invalidate();
-            resp.sendRedirect(INDEX);
-        } else {
-            resp.sendRedirect(PROFILE + "?fail");
+        try {
+
+            if (req.getParameter("password").equals(userService.getPassById(userId))) {
+
+                userService.delete(userId);
+                req.getSession().invalidate();
+                resp.sendRedirect(INDEX);
+            } else {
+                resp.sendRedirect(PROFILE + "?incorrectPassword");
+            }
+
+        } catch (SQLException e) {
+            resp.sendRedirect(PROFILE + "?sqlexception");
         }
+
 
     }
 }
