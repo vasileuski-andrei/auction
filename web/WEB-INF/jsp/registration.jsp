@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html lang="ru">
 <head>
@@ -6,6 +6,8 @@
     <title>Auction</title>
     <style><%@include file="/WEB-INF/css/normalize.css"%></style>
     <style><%@include file="/WEB-INF/css/style.css"%></style>
+    <style><%@include file="/WEB-INF/css/main.css"%></style>
+    <style><%@include file="/WEB-INF/css/util.css"%></style>
 
 </head>
 <body>
@@ -20,47 +22,53 @@
         <!--first-section-->
         <div class="first-section">
 
-            <form action="/registration" method="post">
-                <label for="name">Name:
-                    <input type="text" name="name" id="name">
-                </label><br>
-                <label for="birthday">Birthday:
-                    <input type="date" name="birthday" id="birthday">
-                </label><br>
-                <label for="email">Email:
-                    <input type="text" name="email" id="email">
-                </label><br>
-                <label for="password">Password:
-                    <input type="password" name="password" id="password">
-                </label><br>
-                <label for="password-confirm">Password confirm:
-                    <input type="text" name="password-confirm" id="password-confirm">
-                </label><br>
-                <button type="submit">Send</button>
-                <c:if test="${not empty requestScope.errors}">
-                    <div>
-                        <c:forEach var="error" items="${requestScope.errors}">
-                            <span>${error.message}</span>
-                        </c:forEach>
+            <div class="wrap-login100 p-t-50 p-b-90">
+                <form class="login100-form validate-form flex-sb flex-w" action="${pageContext.request.contextPath}/registration" method="post">
+
+                    <div class="wrap-input100 validate-input m-b-16">
+                        <input class="input100" type="text" name="name" placeholder="Username" required>
+                        <span class="focus-input100"></span>
                     </div>
-                </c:if>
-            </form>
+
+                    <div class="wrap-input100 validate-input m-b-16">
+                        <input class="input100" type="date" name="birthday" placeholder="Date" required>
+                        <span class="focus-input100"></span>
+                    </div>
+
+                    <div class="wrap-input100 validate-input m-b-16">
+                        <input class="input100" type="text" name="email" placeholder="Email" required>
+                        <span class="focus-input100"></span>
+                    </div>
+
+                    <div class="wrap-input100 validate-input m-b-16">
+                        <input class="input100" type="password" name="password" placeholder="Password" required>
+                        <span class="focus-input100"></span>
+                    </div>
+
+                    <div class="wrap-input100 validate-input m-b-16" >
+                        <input class="input100" type="password" name="password" placeholder="Confirm" required>
+                        <span class="focus-input100"></span>
+                    </div>
+
+                    <div class="container-login100-form-btn m-t-17">
+                        <button class="login100-form-btn" type="submit">Sign up</button>
+                        <c:if test="${not empty requestScope.errors}">
+                            <div>
+                                <c:forEach var="error" items="${requestScope.errors}">
+                                    <span>${error.message}</span>
+                                </c:forEach>
+                            </div>
+                        </c:if>
+                    </div>
+
+                </form>
+
+            </div>
 
         </div>
 
-        <!--info-panel-->
-<%--        <div class="info-panel">--%>
-<%--            <!--time-->--%>
-<%--            <div class="time block-properties"><span class="caption-properties">Время работы</span><span class="line-properties"><span class="word-exception">пн-пт</span> 09:00-18:00</span><span class="line-properties"><span class="word-exception">сб-вс</span> выходные</span></div>--%>
-<%--            <!--telephone-->--%>
-<%--            <div class="telephone block-properties"><span class="caption-properties">телефоны</span><span class="line-properties">+7 (499) 963-30-46</span><span class="line-properties">+7 (964) 761-43-29</span></div>--%>
-<%--            <!--email-->--%>
-<%--            <div class="email block-properties"><span class="caption-properties">email</span><span class="line-properties">soulfitnes@yandex.ru</span><span class="line-properties">soulfitnes@mail.ru</span><span class="line-properties">info@soulfitnes.ru</span></div>--%>
-<%--            <!--back-call-->--%>
-<%--            <div class="back-call block-properties"><span class="caption-properties">остались вопросы?</span><a href="#"><img src="img/ip-back-call.png"></a></div>--%>
-<%--        </div>--%>
     </div>
-    <!--FOOTER-->
+
     <%@include file="footer.jsp"%>
 </div>
 </body>
