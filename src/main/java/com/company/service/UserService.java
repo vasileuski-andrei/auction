@@ -8,6 +8,8 @@ import com.company.mapper.CreateUserMapper;
 import com.company.mapper.UserMapper;
 import com.company.validator.CreateUserValidator;
 import lombok.NoArgsConstructor;
+import lombok.SneakyThrows;
+
 import java.util.Optional;
 import static lombok.AccessLevel.PRIVATE;
 
@@ -38,9 +40,19 @@ public class UserService {
 
     }
 
+
+    public void delete(Integer id) {
+        userDao.delete(id);
+    }
+
+    public String getPassById(Integer id) {
+        return userDao.getPasswordById(id).get();
+    }
+
     public static UserService getInstance() {
         return INSTANCE;
     }
+
 
 
 }

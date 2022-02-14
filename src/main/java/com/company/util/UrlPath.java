@@ -10,4 +10,6 @@ public class UrlPath {
     public static final String LOGIN = "/login";
     public static final String MARKET = "/market";
     public static final String ADD_NEW_LOT = "/add-new-lot";
+    public static final String PROFILE = "/profile";
+    public static final String DELETE_USER = "/delete-user";
 }

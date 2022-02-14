@@ -82,7 +82,7 @@ public class LotDao implements Dao<Integer, LotEntity> {
 
     @SneakyThrows
     @Override
-    public void save(LotEntity lotEntity) {
+    public LotEntity save(LotEntity lotEntity) {
 
         try (var connection = ConnectionManager.getConnection();
             var preparedStatement = connection.prepareStatement(ADD_NEW_LOT)) {
@@ -93,6 +93,8 @@ public class LotDao implements Dao<Integer, LotEntity> {
 
             preparedStatement.executeUpdate();
         }
+
+        return null;
 
     }
 

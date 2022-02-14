@@ -8,6 +8,8 @@ import java.sql.*;
 import java.util.List;
 import java.util.Optional;
 
+import static java.sql.Statement.*;
+
 public class UserDao implements Dao<Integer, UserEntity> {
 
     private static final UserDao INSTANCE = new UserDao();
@@ -17,10 +19,21 @@ public class UserDao implements Dao<Integer, UserEntity> {
             VALUES (?, ?, ?, ?);
             """;
 
-    private static final String GET_USER_BY_EMAIL = """
+    private static final String GET_USER_BY_EMAIL_SQL = """
             SELECT id, name, birth_date, email, password
             FROM users
             WHERE email = ? AND password = ?
+            """;
+
+    private static final String DELETE_USER_SQL = """
+            DELETE FROM users
+            WHERE id = ?
+            """;
+
+    private static final String GET_PASS_SQL = """
+            SELECT password
+            FROM users
+            WHERE id = ?
             """;
 
     private UserDao() {
@@ -29,7 +42,7 @@ public class UserDao implements Dao<Integer, UserEntity> {
     @SneakyThrows
     public Optional<UserEntity> findByEmailAndPassword(String email, String password) {
         try (var connection = ConnectionManager.getConnection();
-             var preparedStatement = connection.prepareStatement(GET_USER_BY_EMAIL)) {
+             var preparedStatement = connection.prepareStatement(GET_USER_BY_EMAIL_SQL)) {
 
             preparedStatement.setString(1, email);
             preparedStatement.setString(2, password);
@@ -49,18 +62,24 @@ public class UserDao implements Dao<Integer, UserEntity> {
 
     @Override
     @SneakyThrows
-    public void save(UserEntity userEntity) {
+    public UserEntity save(UserEntity userEntity) {
 
         try (var connection = ConnectionManager.getConnection();
-             var preparedStatement = connection.prepareStatement(SAVE_SQL)) {
+             var preparedStatement = connection.prepareStatement(SAVE_SQL, RETURN_GENERATED_KEYS)) {
             preparedStatement.setObject(1, userEntity.getName());
             preparedStatement.setObject(2, userEntity.getBirthDate());
             preparedStatement.setObject(3, userEntity.getEmail());
             preparedStatement.setObject(4, userEntity.getPassword());
 
             preparedStatement.executeUpdate();
+            var generatedKeys = preparedStatement.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                userEntity.setId(generatedKeys.getObject("id", Integer.class));
+            }
 
         }
+
+        return userEntity;
 
     }
 
@@ -74,14 +93,41 @@ public class UserDao implements Dao<Integer, UserEntity> {
         return Optional.empty();
     }
 
+    @SneakyThrows
     @Override
     public boolean delete(Integer id) {
+
+        try (var connection = ConnectionManager.getConnection();
+             var preparedStatement = connection.prepareStatement(DELETE_USER_SQL)) {
+
+            preparedStatement.setObject(1, id);
+            preparedStatement.executeUpdate();
+        }
         return false;
     }
 
     @Override
     public void update(UserEntity entity) {
 
+    }
+
+    @SneakyThrows
+    public Optional<String> getPasswordById(Integer id) {
+        String password = null;
+
+        try (var connection = ConnectionManager.getConnection();
+             var preparedStatement = connection.prepareStatement(GET_PASS_SQL)) {
+
+            preparedStatement.setObject(1, id);
+            var resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                password = resultSet.getObject("password", String.class);
+            }
+
+        }
+
+        return Optional.ofNullable(password);
     }
 
     public static UserDao getInstance() {

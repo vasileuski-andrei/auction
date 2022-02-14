@@ -22,7 +22,7 @@
         <div class="first-section">
 
             <div id="content">
-                <table cellspacing="0">
+                <table>
                     <tr>
                         <th>ID</th>
                         <th>LOT</th>
@@ -38,7 +38,7 @@
                             <td><a href="${pageContext.request.contextPath}/index">${lot.lotName}</a></td>
                             <td>${lot.owner}</td>
                             <td>${lot.startPrice} $</td>
-                            <td>${lot.id}</td>
+                            <td>-</td>
                             <td>${lot.lotStatus}</td>
                         </tr>
 

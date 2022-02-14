@@ -12,7 +12,7 @@
                 <a href="${pageContext.request.contextPath}/add-new-lot">add new lot</a>
                 <a href="#">cashbox</a>
                 <c:if test="${sessionScope.user != null}" >
-                    <a href="#">profile</a>
+                    <a href="${pageContext.request.contextPath}/profile">profile</a>
                 </c:if>
 
 

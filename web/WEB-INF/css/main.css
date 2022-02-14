@@ -1,7 +1,5 @@
 
 * {
-	margin: 0px; 
-	padding: 0px; 
 	box-sizing: border-box;
 }
 
@@ -295,6 +293,16 @@ iframe {
 [ Button ]*/
 .container-login100-form-btn {
   width: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.delete-account-form-btn {
+  width: 10%;
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;
