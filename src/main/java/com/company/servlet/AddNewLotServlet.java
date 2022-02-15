@@ -39,7 +39,6 @@ public class AddNewLotServlet extends HttpServlet {
             lotService.addNewLot(createLotDto);
             resp.sendRedirect("/market");
         } catch (Exception e) {
-            System.out.println("YES!!!");
             req.setAttribute("errors", e);
             doGet(req, resp);
         }

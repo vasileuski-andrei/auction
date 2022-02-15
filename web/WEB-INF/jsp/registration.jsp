@@ -46,7 +46,7 @@
                     </div>
 
                     <div class="wrap-input100 validate-input m-b-16" >
-                        <input class="input100" type="password" name="password" placeholder="Confirm" required>
+                        <input class="input100" type="password" name="password-confirm" placeholder="Confirmation" required>
                         <span class="focus-input100"></span>
                     </div>
 
@@ -55,10 +55,19 @@
                         <c:if test="${not empty requestScope.errors}">
                             <div>
                                 <c:forEach var="error" items="${requestScope.errors}">
-                                    <span>${error.message}</span>
+                                    <ul>
+                                        <li><span class="alert-message">${error.message}</span></li>
+                                    </ul>
+
                                 </c:forEach>
                             </div>
                         </c:if>
+                        <c:if test="${param.invalidCreateUser!= null}">
+                            <div>
+                                <span class="alert-message">Username or email is already taken.</span>
+                            </div>
+                        </c:if>
+
                     </div>
 
                 </form>

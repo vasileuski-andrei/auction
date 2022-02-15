@@ -8,7 +8,6 @@ import com.company.mapper.CreateUserMapper;
 import com.company.mapper.UserMapper;
 import com.company.validator.CreateUserValidator;
 import lombok.NoArgsConstructor;
-import lombok.SneakyThrows;
 
 import java.sql.SQLException;
 import java.util.Optional;
@@ -28,8 +27,8 @@ public class UserService {
 
     }
 
-    public Integer create(CreateUserDto userDto) {
-        var validationResult = createUserValidator.isValid(userDto);
+    public Integer create(CreateUserDto userDto) throws SQLException {
+        var validationResult = createUserValidator.validateData(userDto);
         if (!validationResult.isValid()) {
             throw new ValidationException(validationResult.getErrors());
         }

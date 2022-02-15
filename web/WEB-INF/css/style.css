@@ -108,7 +108,9 @@ html, body {
 }
 
 .contact-links {
-  display: inline-block;
+  display: flex;
+  justify-content: space-between;
+  width: 110px;
 }
 
 .contact-links a {

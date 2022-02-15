@@ -26,7 +26,7 @@
             <form class="login100-form validate-form flex-sb flex-w" action="${pageContext.request.contextPath}/login" method="post">
 
             <div class="wrap-input100 validate-input m-b-16">
-                <input class="input100" type="text" name="email" placeholder="Username" value="${param.email}" required>
+                <input class="input100" type="text" name="email" placeholder="Email" value="${param.email}" required>
                 <span class="focus-input100"></span>
             </div>
 
@@ -53,9 +53,9 @@
                 <button class="login100-form-btn">Sign in</button>
             </div>
 
-            <c:if test="${param.fail != null}">
+            <c:if test="${param.incorrectAuthData != null}">
                 <div>
-                    <span>Email or password is incorrect. Try it again.</span>
+                    <span class="alert-message">Email or password is incorrect. Try it again.</span>
                 </div>
             </c:if>
 

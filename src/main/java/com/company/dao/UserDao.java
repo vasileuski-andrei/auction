@@ -61,8 +61,7 @@ public class UserDao implements Dao<Integer, UserEntity> {
     }
 
     @Override
-    @SneakyThrows
-    public UserEntity save(UserEntity userEntity) {
+    public UserEntity save(UserEntity userEntity) throws SQLException {
 
         try (var connection = ConnectionManager.getConnection();
              var preparedStatement = connection.prepareStatement(SAVE_SQL, RETURN_GENERATED_KEYS)) {

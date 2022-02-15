@@ -13,4 +13,5 @@ public class CreateUserDto {
     String birthday;
     String email;
     String password;
+    String passwordConfirmation;
 }

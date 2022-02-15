@@ -14,5 +14,5 @@ public interface Dao<K, T> {
 
     void update(T entity);
 
-    T save(T entity);
+    T save(T entity) throws SQLException;
 }

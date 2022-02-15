@@ -1,6 +1,7 @@
 package com.company.servlet;
 
 import com.company.dto.CreateUserDto;
+import com.company.exception.CreateUserException;
 import com.company.exception.ValidationException;
 import com.company.service.UserService;
 import jakarta.servlet.ServletException;
@@ -10,6 +11,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 @WebServlet("/registration")
 public class RegistrationServlet extends HttpServlet {
@@ -28,6 +30,7 @@ public class RegistrationServlet extends HttpServlet {
                 .birthday(req.getParameter("birthday"))
                 .email(req.getParameter("email"))
                 .password(req.getParameter("password"))
+                .passwordConfirmation(req.getParameter("password-confirm"))
                 .build();
 
         try {
@@ -36,6 +39,8 @@ public class RegistrationServlet extends HttpServlet {
         } catch (ValidationException e) {
             req.setAttribute("errors", e.getErrors());
             doGet(req, resp);
+        } catch (SQLException e) {
+            resp.sendRedirect("/registration?invalidCreateUser");
         }
 
     }

@@ -26,7 +26,10 @@ body {
 
 a {color:#666;}
 
-#content {width:65%; max-width:690px; margin:6% auto 0;}
+#content {
+	width:85%;
+	max-width:900px;
+	margin:6% auto 0;}
 
 table {
 	overflow:hidden;
@@ -52,22 +55,6 @@ tr.odd-row td {background:#f6f6f6;}
 td.first, th.first {text-align:left}
 
 td.last {border-right:none;}
-
-
-td {
-	background: -moz-linear-gradient(100% 25% 90deg, #fefefe, #f9f9f9);
-	background: -webkit-gradient(linear, 0% 0%, 0% 25%, from(#f9f9f9), to(#fefefe));
-}
-
-tr.odd-row td {
-	background: -moz-linear-gradient(100% 25% 90deg, #f6f6f6, #f1f1f1);
-	background: -webkit-gradient(linear, 0% 0%, 0% 25%, from(#f1f1f1), to(#f6f6f6));
-}
-
-th {
-	background: -moz-linear-gradient(100% 20% 90deg, #e8eaeb, #ededed);
-	background: -webkit-gradient(linear, 0% 0%, 0% 20%, from(#ededed), to(#e8eaeb));
-}
 
 tr:first-child th.first {
 	-moz-border-radius-topleft:5px;
