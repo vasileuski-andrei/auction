@@ -1,7 +1,6 @@
 package com.company.dao;
 
 import com.company.entity.BetEntity;
-import com.company.entity.LotStatus;
 import com.company.util.ConnectionManager;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
@@ -18,7 +17,7 @@ public class BetDao implements Dao<Integer, BetEntity> {
 
     private static final BetDao INSTANCE = new BetDao();
 
-    private static final String ADD_BET_SQL = """
+    private static final String PLACE_BET_SQL = """
             INSERT INTO bet (lot_name, lot_id, user_name, user_bet)
             VALUES (?, ?, ?, ?);
             """;
@@ -38,7 +37,7 @@ public class BetDao implements Dao<Integer, BetEntity> {
     @Override
     public Optional<BetEntity> findById(Integer id) {
         try (var connection = ConnectionManager.getConnection();
-             var preparedStatement = connection.prepareStatement(ADD_BET_SQL)) {
+             var preparedStatement = connection.prepareStatement(PLACE_BET_SQL)) {
 
             preparedStatement.setObject(1, id);
             var resultSet = preparedStatement.executeQuery();
@@ -68,7 +67,7 @@ public class BetDao implements Dao<Integer, BetEntity> {
     public BetEntity save(BetEntity entity) throws SQLException {
 
         try (var connection = ConnectionManager.getConnection();
-             var preparedStatement = connection.prepareStatement(ADD_BET_SQL)) {
+             var preparedStatement = connection.prepareStatement(PLACE_BET_SQL)) {
 
             preparedStatement.setObject(1, entity.getLotName());
             preparedStatement.setObject(2, entity.getLotId());

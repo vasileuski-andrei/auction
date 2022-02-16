@@ -2,7 +2,10 @@ package com.company.validator;
 
 import com.company.dto.CreateUserDto;
 import com.company.util.LocalDateFormatter;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CreateUserValidator implements Validator<CreateUserDto> {
 
     private static final CreateUserValidator INSTANCE = new CreateUserValidator();

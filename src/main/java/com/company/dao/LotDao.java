@@ -27,10 +27,10 @@ public class LotDao implements Dao<Integer, LotEntity> {
 //            """;
 
     private static final String GET_ALL_LOT_SQL = """   
-            SELECT *
-            FROM lot l
-            JOIN status st ON l.status_id = st.id
-            """;
+        SELECT *
+        FROM lot l
+        JOIN status st ON l.status_id = st.id
+        """;
 
     private static final String FIND_BY_ID_SQL = """
         SELECT id

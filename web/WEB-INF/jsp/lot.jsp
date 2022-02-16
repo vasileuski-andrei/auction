@@ -77,6 +77,18 @@
             </div>
 
 
+<%--            <c:if test="${not empty requestScope.errors}">--%>
+<%--                <div>--%>
+<%--                    <c:forEach var="error" items="${requestScope.errors}">--%>
+<%--                        <ul>--%>
+<%--                            <li><span class="alert-message">${error.message}</span></li>--%>
+<%--                        </ul>--%>
+
+<%--                    </c:forEach>--%>
+<%--                </div>--%>
+<%--            </c:if>--%>
+
+
 
 
         </div>
