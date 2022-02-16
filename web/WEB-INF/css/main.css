@@ -36,7 +36,7 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 p {
-	font-family: Ubuntu-Regular;
+	/*font-family: Ubuntu-Regular;*/
 	font-size: 14px;
 	line-height: 1.7;
 	color: #666666;
@@ -134,7 +134,14 @@ iframe {
 
 
 .wrap-login100 {
-  width: 390px;
+  width: 380px;
+  background: #fff;
+  border-radius: 10px;
+  position: relative;
+}
+
+.wrap-bet-form {
+  width: 100px;
   background: #fff;
   border-radius: 10px;
   position: relative;

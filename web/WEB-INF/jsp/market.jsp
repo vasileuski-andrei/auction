@@ -35,7 +35,7 @@
 
                         <tr>
                             <td>${lot.id}</td>
-                            <td><a href="${pageContext.request.contextPath}/index">${lot.lotName}</a></td>
+                            <td><a href="${pageContext.request.contextPath}/lot?lotId=${lot.id}&lotName=${lot.lotName}">${lot.lotName}</a></td>
                             <td>${lot.owner}</td>
                             <td>${lot.startPrice} $</td>
                             <td>-</td>
