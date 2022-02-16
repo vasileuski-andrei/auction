@@ -2,10 +2,7 @@ package com.company.service;
 
 import com.company.dao.LotDao;
 import com.company.dto.CreateLotDto;
-import com.company.dto.CreateUserDto;
 import com.company.dto.LotDto;
-import com.company.entity.LotEntity;
-import com.company.exception.ValidationException;
 import com.company.mapper.CreateLotMapper;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
@@ -30,7 +27,7 @@ public class LotService {
                 .owner(lotDao.getOwner())
                 .lotStatus(String.valueOf(lotDao.getLotStatus()))
                 .startPrice(String.valueOf(lotDao.getStartPrice()))
-                .lastPrice(String.valueOf(lotDao.getLastPrice()))
+                .lastBet(String.valueOf(lotDao.getLastPrice()))
                 .build()).collect(toList());
 
     }

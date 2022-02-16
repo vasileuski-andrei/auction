@@ -35,35 +35,33 @@
 
                         <tr>
                             <td>${lot.id}</td>
-                            <td><a href="${pageContext.request.contextPath}/lot?lotId=${lot.id}&lotName=${lot.lotName}&startBet=${lot.startPrice}">${lot.lotName}</a></td>
+                            <td><a href="${pageContext.request.contextPath}/lot?lotId=${lot.id}&lotName=${lot.lotName}&startBet=${lot.startPrice}&lastBet=${lot.lastBet}">${lot.lotName}</a></td>
                             <td>${lot.owner}</td>
                             <td>${lot.startPrice} $</td>
-
-<%--                            <c:choose>--%>
-<%--                                <c:when test="${not empty lot.lastPrice}">--%>
-<%--                                    <td>${lot.lastPrice}</td>--%>
-<%--                                </c:when>--%>
-<%--                                <c:otherwise>--%>
-<%--                                    <td>-</td>--%>
-<%--                                </c:otherwise>--%>
-<%--                            </c:choose>--%>
-
                             <c:choose>
-                                <c:when test="${lot.lastPrice eq null}">
-                                    <td>-</td>
+                                <c:when test="${not empty lot.lastBet}">
+                                    <td>${lot.lastBet}</td>
                                 </c:when>
                                 <c:otherwise>
-                                    <td>${lot.lastPrice}</td>
+                                    <td>-</td>
                                 </c:otherwise>
                             </c:choose>
-
-<%--                            <c:if test="${lot.lastPrice != null}">--%>
-<%--                                <td>lot.lastPrice</td>--%>
-<%--                            </c:if>--%>
                             <td>${lot.lotStatus}</td>
+
                         </tr>
 
                     </c:forEach>
+
+                    <c:if test="${not empty requestScope.errors}">
+                        <div>
+                            <c:forEach var="error" items="${requestScope.errors}">
+                                <ul>
+                                    <li><span class="alert-message">${error.message}</span></li>
+                                </ul>
+
+                            </c:forEach>
+                        </div>
+                    </c:if>
 
 
                 </table>

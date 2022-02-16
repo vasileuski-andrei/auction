@@ -27,7 +27,7 @@ public class UserService {
 
     }
 
-    public Integer create(CreateUserDto userDto) throws SQLException {
+    public void create(CreateUserDto userDto) throws SQLException {
         var validationResult = createUserValidator.validateData(userDto);
         if (!validationResult.isValid()) {
             throw new ValidationException(validationResult.getErrors());
@@ -35,8 +35,6 @@ public class UserService {
 
         var userEntity = createUserMapper.mapFrom(userDto);
         userDao.save(userEntity);
-
-        return userEntity.getId();
 
     }
 

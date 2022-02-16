@@ -20,12 +20,14 @@ public class LotServlet extends HttpServlet {
     private Integer lotId;
     private String lotName;
     private String bet;
+    private String lastBet;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         lotId = Integer.valueOf(req.getParameter("lotId"));
         lotName = req.getParameter("lotName");
         bet = req.getParameter("startBet");
+        lastBet = req.getParameter("lastBet");
         req.getRequestDispatcher("WEB-INF/jsp/lot.jsp").forward(req, resp);
     }
 
@@ -39,6 +41,7 @@ public class LotServlet extends HttpServlet {
                 .userId(user.getId())
                 .userName(user.getName())
                 .startBet(Integer.valueOf(bet))
+                .lastBet(Integer.valueOf(lastBet))
                 .userBet(currentBet)
                 .build();
 
@@ -47,7 +50,10 @@ public class LotServlet extends HttpServlet {
             resp.sendRedirect("/market");
         } catch (ValidationException e) {
             req.setAttribute("errors", e.getErrors());
-            doGet(req, resp);
+            req.getRequestDispatcher("WEB-INF/jsp/market.jsp").forward(req, resp);
+//            doGet(req, resp);
+//            resp.sendRedirect("lot?lotId=" + lotId + "&lotName=" + lotName + "&startBet=" + bet);
+
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -64,8 +64,7 @@ public class BetDao implements Dao<Integer, BetEntity> {
     }
 
     @Override
-    public BetEntity save(BetEntity entity) throws SQLException {
-
+    public void save(BetEntity entity) throws SQLException {
         try (var connection = ConnectionManager.getConnection();
              var preparedStatement = connection.prepareStatement(PLACE_BET_SQL)) {
 
@@ -77,8 +76,6 @@ public class BetDao implements Dao<Integer, BetEntity> {
             preparedStatement.executeUpdate();
 
         }
-
-        return null;
     }
 
     public static BetDao getInstance () {

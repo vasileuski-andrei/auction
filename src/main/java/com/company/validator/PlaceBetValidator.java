@@ -12,14 +12,14 @@ public class PlaceBetValidator implements Validator<PlaceBetDto> {
 
     private static final PlaceBetValidator INSTANCE = new PlaceBetValidator();
     private static final Map<Integer, List<Integer>> lotIdsAndBiddersIds = new HashMap<>();
-
-
+    
     @Override
     public ValidationResult validateData(PlaceBetDto object) {
         var validationResult = new ValidationResult();
         var lotId = object.getLotId();
+        var userBet = object.getUserBet();
 
-        if (object.getUserBet() <= object.getStartBet()) {
+        if (userBet <= object.getStartBet() || userBet.equals(object.getLastBet())) {
             validationResult.add(Error.of("invalid-username", "ERROR-PRICE"));
             return validationResult;
         }

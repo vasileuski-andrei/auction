@@ -19,11 +19,6 @@ public class MarketServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//        var allLot = lotService.getAllLot();
-//
-//        for (LotDto lot : allLot) {
-//            System.out.println(lot.getLastPrice());
-//        }
         req.setAttribute("lots", lotService.getAllLot());
         req.getRequestDispatcher("WEB-INF/jsp/market.jsp").forward(req, resp);
 
