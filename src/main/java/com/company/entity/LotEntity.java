@@ -16,4 +16,5 @@ public class LotEntity {
     private String owner;
     private Integer startPrice;
     private LotStatus lotStatus;
+    private Integer lastPrice;
 }

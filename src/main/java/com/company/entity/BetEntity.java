@@ -8,8 +8,9 @@ import lombok.*;
 @Builder
 public class BetEntity {
 
+    private Integer id;
     private String lotName;
-    private Integer lodId;
+    private Integer lotId;
     private String userName;
     private Integer userBet;
 }

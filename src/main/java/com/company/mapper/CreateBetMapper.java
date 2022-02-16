@@ -2,7 +2,6 @@ package com.company.mapper;
 
 import com.company.dto.CreateBetDto;
 import com.company.entity.BetEntity;
-import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -16,7 +15,7 @@ public class CreateBetMapper implements Mapper <CreateBetDto, BetEntity> {
     public BetEntity mapFrom(CreateBetDto object) {
         return BetEntity.builder()
                 .lotName(object.getLotName())
-                .lodId(object.getLotId())
+                .lotId(object.getLotId())
                 .userName(object.getUserName())
                 .userBet(object.getUserBet())
                 .build();

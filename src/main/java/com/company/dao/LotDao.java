@@ -11,7 +11,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.OptionalInt;
 
 import static lombok.AccessLevel.PRIVATE;
 
@@ -20,25 +19,32 @@ public class LotDao implements Dao<Integer, LotEntity> {
 
     private static final LotDao INSTANCE = new LotDao();
 
-    private static final String GET_ALL_LOT_SQL = """       
+//    private static final String GET_ALL_LOT_SQL = """
+//            SELECT *
+//            FROM lot l
+//            JOIN status st ON l.status_id = st.id
+//            LEFT JOIN bet b ON l.id = b.lot_id
+//            """;
+
+    private static final String GET_ALL_LOT_SQL = """   
             SELECT *
             FROM lot l
             JOIN status st ON l.status_id = st.id
             """;
 
-//    private static final String FIND_ID = """
-//        SELECT id
-//        FROM ?
-//        WHERE ?
-//        """;
-
-    private static final String FIND_ID = """
+    private static final String FIND_BY_ID_SQL = """
         SELECT id
         FROM status
         WHERE lot_status = ?
         """;
 
-    private static final String ADD_NEW_LOT = """
+    private static final String GET_LAST_BET_BY_ID_SQL = """
+        SELECT MAX(user_bet) as last_bet
+        FROM bet
+        WHERE lot_id = ?
+        """;
+
+    private static final String ADD_NEW_LOT_SQL = """
         INSERT INTO lot (lot_name, owner, status_id, start_price)
         VALUES (?, ?, ?, ?)
         """;
@@ -85,7 +91,7 @@ public class LotDao implements Dao<Integer, LotEntity> {
     public LotEntity save(LotEntity lotEntity) {
 
         try (var connection = ConnectionManager.getConnection();
-            var preparedStatement = connection.prepareStatement(ADD_NEW_LOT)) {
+            var preparedStatement = connection.prepareStatement(ADD_NEW_LOT_SQL)) {
             preparedStatement.setObject(1, lotEntity.getLotName());
             preparedStatement.setObject(2, lotEntity.getOwner());
             preparedStatement.setObject(3, findIdByLotStatusName(String.valueOf(lotEntity.getLotStatus())).get());
@@ -103,7 +109,7 @@ public class LotDao implements Dao<Integer, LotEntity> {
         Integer id = null;
 
         try (var connection = ConnectionManager.getConnection();
-             var preparedStatement = connection.prepareStatement(FIND_ID)) {
+             var preparedStatement = connection.prepareStatement(FIND_BY_ID_SQL)) {
 
             preparedStatement.setObject(1, findId);
             var resultSet = preparedStatement.executeQuery();
@@ -118,6 +124,27 @@ public class LotDao implements Dao<Integer, LotEntity> {
 
     }
 
+    private Integer getLastBet(Integer lotId) throws SQLException {
+        Integer id = null;
+
+        try (var connection = ConnectionManager.getConnection();
+             var preparedStatement = connection.prepareStatement(GET_LAST_BET_BY_ID_SQL)) {
+
+            preparedStatement.setObject(1, lotId);
+            var resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                id = resultSet.getObject("last_bet", Integer.class);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return id;
+
+    }
+
 
     @SneakyThrows
     private LotEntity buildEntity (ResultSet resultSet) {
@@ -128,6 +155,7 @@ public class LotDao implements Dao<Integer, LotEntity> {
                 .owner(resultSet.getObject("owner", String.class))
                 .lotStatus(LotStatus.valueOf(resultSet.getObject("lot_status", String.class)))
                 .startPrice(resultSet.getObject("start_price", Integer.class))
+                .lastPrice(getLastBet(resultSet.getObject("id", Integer.class)))
                 .build();
     }
 

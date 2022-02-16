@@ -21,6 +21,7 @@ public class LotService {
     private static final LotService INSTANCE = new LotService();
     private static final LotDao lotDao = LotDao.getInstance();
     private static final CreateLotMapper createLotMapper = CreateLotMapper.getInstance();
+    private final BetService betService = BetService.getInstance();
 
     public List<LotDto> getAllLot() {
         return lotDao.findAll().stream().map(lotDao -> LotDto.builder()
@@ -29,6 +30,7 @@ public class LotService {
                 .owner(lotDao.getOwner())
                 .lotStatus(String.valueOf(lotDao.getLotStatus()))
                 .startPrice(String.valueOf(lotDao.getStartPrice()))
+                .lastPrice(String.valueOf(lotDao.getLastPrice()))
                 .build()).collect(toList());
 
     }

@@ -25,6 +25,11 @@ public class BetService {
         betDao.save(betEntity);
     }
 
+    public void getAllBetByLotId(Integer id) {
+//        betDao.findById()
+
+    }
+
     public static BetService getInstance() {
         return INSTANCE;
     }

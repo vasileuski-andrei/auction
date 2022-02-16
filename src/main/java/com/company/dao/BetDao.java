@@ -1,12 +1,12 @@
 package com.company.dao;
 
 import com.company.entity.BetEntity;
+import com.company.entity.LotStatus;
 import com.company.util.ConnectionManager;
-import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import lombok.SneakyThrows;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
@@ -23,14 +23,35 @@ public class BetDao implements Dao<Integer, BetEntity> {
             VALUES (?, ?, ?, ?);
             """;
 
+    private static final String GET_BET_BY_ID_SQL = """
+            SELECT *
+            FROM bet
+            WHERE lot_id = ?
+            """;
+
     @Override
     public List<BetEntity> findAll() {
         return null;
     }
 
+    @SneakyThrows
     @Override
     public Optional<BetEntity> findById(Integer id) {
-        return Optional.empty();
+        try (var connection = ConnectionManager.getConnection();
+             var preparedStatement = connection.prepareStatement(ADD_BET_SQL)) {
+
+            preparedStatement.setObject(1, id);
+            var resultSet = preparedStatement.executeQuery();
+            BetEntity betEntity = null;
+
+            while (resultSet.next()) {
+                betEntity = buildEntity(resultSet);
+
+            }
+
+            return Optional.ofNullable(betEntity);
+        }
+
     }
 
     @Override
@@ -50,7 +71,7 @@ public class BetDao implements Dao<Integer, BetEntity> {
              var preparedStatement = connection.prepareStatement(ADD_BET_SQL)) {
 
             preparedStatement.setObject(1, entity.getLotName());
-            preparedStatement.setObject(2, entity.getLodId());
+            preparedStatement.setObject(2, entity.getLotId());
             preparedStatement.setObject(3, entity.getUserName());
             preparedStatement.setObject(4, entity.getUserBet());
 
@@ -63,5 +84,17 @@ public class BetDao implements Dao<Integer, BetEntity> {
 
     public static BetDao getInstance () {
         return INSTANCE;
+    }
+
+    @SneakyThrows
+    private BetEntity buildEntity (ResultSet resultSet) {
+
+        return BetEntity.builder()
+                .id(resultSet.getObject("id", Integer.class))
+                .lotName(resultSet.getObject("lot_name", String.class))
+                .lotId(resultSet.getObject("lot_id", Integer.class))
+                .userName(resultSet.getObject("user_name", String.class))
+                .userBet(resultSet.getObject("user_bet", Integer.class))
+                .build();
     }
 }

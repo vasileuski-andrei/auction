@@ -12,5 +12,6 @@ public class LotDto {
     String owner;
     String lotStatus;
     String startPrice;
+    String lastPrice;
 
 }

@@ -1,5 +1,7 @@
 package com.company.servlet;
 
+import com.company.dto.LotDto;
+import com.company.service.BetService;
 import com.company.service.LotService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -8,6 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.util.List;
 
 @WebServlet("/market")
 public class MarketServlet extends HttpServlet {
@@ -16,6 +19,11 @@ public class MarketServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+//        var allLot = lotService.getAllLot();
+//
+//        for (LotDto lot : allLot) {
+//            System.out.println(lot.getLastPrice());
+//        }
         req.setAttribute("lots", lotService.getAllLot());
         req.getRequestDispatcher("WEB-INF/jsp/market.jsp").forward(req, resp);
 
