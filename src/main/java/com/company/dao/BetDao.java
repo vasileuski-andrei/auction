@@ -7,6 +7,7 @@ import lombok.SneakyThrows;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,7 +24,7 @@ public class BetDao implements Dao<Integer, BetEntity> {
             """;
 
     private static final String GET_BET_BY_ID_SQL = """
-            SELECT *
+            SELECT id, lot_name, lot_id, user_name, user_bet
             FROM bet
             WHERE lot_id = ?
             """;
@@ -35,21 +36,23 @@ public class BetDao implements Dao<Integer, BetEntity> {
 
     @SneakyThrows
     @Override
-    public Optional<BetEntity> findById(Integer id) {
+    public List<BetEntity> findById(Integer id) {
+
+        List<BetEntity> bet = new ArrayList<>();
+
         try (var connection = ConnectionManager.getConnection();
-             var preparedStatement = connection.prepareStatement(PLACE_BET_SQL)) {
+             var preparedStatement = connection.prepareStatement(GET_BET_BY_ID_SQL)) {
 
             preparedStatement.setObject(1, id);
             var resultSet = preparedStatement.executeQuery();
-            BetEntity betEntity = null;
 
             while (resultSet.next()) {
-                betEntity = buildEntity(resultSet);
-
+                bet.add(buildEntity(resultSet));
             }
 
-            return Optional.ofNullable(betEntity);
         }
+
+        return bet;
 
     }
 
@@ -84,7 +87,6 @@ public class BetDao implements Dao<Integer, BetEntity> {
 
     @SneakyThrows
     private BetEntity buildEntity (ResultSet resultSet) {
-
         return BetEntity.builder()
                 .id(resultSet.getObject("id", Integer.class))
                 .lotName(resultSet.getObject("lot_name", String.class))

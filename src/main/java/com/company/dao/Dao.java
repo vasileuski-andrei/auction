@@ -8,7 +8,7 @@ public interface Dao<K, T> {
 
     List<T> findAll();
 
-    Optional<T> findById(K id);
+    List<T> findById(K id);
 
     void delete(K id) throws SQLException;
 

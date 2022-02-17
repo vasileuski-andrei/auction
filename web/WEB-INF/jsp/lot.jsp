@@ -25,26 +25,23 @@
 
             <div id="content">
                 <table>
+<%--                    <span>${requestScope.lotName}</span>--%>
                     <tr>
-                        <th>ID</th>
-                        <th>LOT</th>
-                        <th>OWNER</th>
-                        <th>START PRICE</th>
-                        <th>LAST BET</th>
-                        <th>STATUS</th>
+                        <th>LOT ID</th>
+                        <th>USER</th>
+                        <th>ALL BET</th>
+                        <th>TIME</th>
                     </tr>
-<%--                    <c:forEach var="lot" items="${requestScope.lots}">--%>
+                    <c:forEach var="bet" items="${requestScope.bets}">
 
-<%--                        <tr>--%>
-<%--                            <td>${lot.id}</td>--%>
-<%--                            <td><a href="${pageContext.request.contextPath}/lot?lotId=${lot.id}">${lot.lotName}</a></td>--%>
-<%--                            <td>${lot.owner}</td>--%>
-<%--                            <td>${lot.startPrice} $</td>--%>
-<%--                            <td>-</td>--%>
-<%--                            <td>${lot.lotStatus}</td>--%>
-<%--                        </tr>--%>
+                        <tr>
+                            <td>${bet.lotId}</td>
+                            <td>${bet.userName}</td>
+                            <td>${bet.userBet} $</td>
+                            <td>-</td>
+                        </tr>
 
-<%--                    </c:forEach>--%>
+                    </c:forEach>
 
 
                 </table>

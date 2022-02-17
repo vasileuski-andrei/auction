@@ -1,5 +1,6 @@
 package com.company.servlet;
 
+import com.company.dto.BetDto;
 import com.company.dto.PlaceBetDto;
 import com.company.dto.UserDto;
 import com.company.exception.ValidationException;
@@ -12,6 +13,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 
 @WebServlet("/lot")
 public class LotServlet extends HttpServlet {
@@ -28,6 +30,10 @@ public class LotServlet extends HttpServlet {
         lotName = req.getParameter("lotName");
         bet = req.getParameter("startBet");
         lastBet = req.getParameter("lastBet");
+        var allBetByLotId = betService.getAllBetByLotId(lotId);
+
+        req.setAttribute("bets", allBetByLotId);
+//        req.setAttribute("lotName", allBetByLotId.stream().reduce(f -> f.getLotName())
         req.getRequestDispatcher("WEB-INF/jsp/lot.jsp").forward(req, resp);
     }
 

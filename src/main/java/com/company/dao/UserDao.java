@@ -83,8 +83,8 @@ public class UserDao implements Dao<Integer, UserEntity> {
     }
 
     @Override
-    public Optional<UserEntity> findById(Integer id) {
-        return Optional.empty();
+    public List<UserEntity> findById(Integer id) {
+        return null;
     }
 
     @Override

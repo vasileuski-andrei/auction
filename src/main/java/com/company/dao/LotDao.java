@@ -67,13 +67,12 @@ public class LotDao implements Dao<Integer, LotEntity> {
             }
 
         }
-        System.out.println();
         return lots;
     }
 
     @Override
-    public Optional<LotEntity> findById(Integer id) {
-        return Optional.empty();
+    public List<LotEntity> findById(Integer id) {
+        return null;
     }
 
     @Override

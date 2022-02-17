@@ -39,8 +39,8 @@
                             <td>${lot.owner}</td>
                             <td>${lot.startPrice} $</td>
                             <c:choose>
-                                <c:when test="${not empty lot.lastBet}">
-                                    <td>${lot.lastBet}</td>
+                                <c:when test="${lot.lastBet != null}">
+                                    <td>${lot.lastBet} $</td>
                                 </c:when>
                                 <c:otherwise>
                                     <td>-</td>
