@@ -51,7 +51,7 @@
                 <form class="login100-form validate-form flex-sb flex-w" action="${pageContext.request.contextPath}/lot" method="post">
 
                     <div class="wrap-input100 validate-input m-b-16">
-                        <input class="input100" type="text" name="bet" placeholder="Sum" required>
+                        <input class="input100" type="text" name="userBet" placeholder="Sum" required>
                         <span class="focus-input100"></span>
                     </div>
 

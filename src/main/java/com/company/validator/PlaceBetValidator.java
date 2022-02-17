@@ -19,7 +19,15 @@ public class PlaceBetValidator implements Validator<PlaceBetDto> {
     public ValidationResult validateData(PlaceBetDto object) {
         var validationResult = new ValidationResult();
         var lotId = object.getLotId();
-        var userBet = object.getUserBet();
+        var strUserBet = object.getUserBet();
+        Integer userBet = null;
+
+        if (!strUserBet.matches("[1-9]+")) {
+            validationResult.add(Error.of("double-bet", "You can't place two bets in a row"));
+            return validationResult;
+        } else {
+            userBet = Integer.valueOf(strUserBet);
+        }
 
         if (object.getUserName().equals(object.getUserPlacedLastBet())) {
             validationResult.add(Error.of("double-bet", "You can't place two bets in a row"));

@@ -17,7 +17,7 @@ public class CreateBetMapper implements Mapper <PlaceBetDto, BetEntity> {
                 .lotName(object.getLotName())
                 .lotId(object.getLotId())
                 .userName(object.getUserName())
-                .userBet(object.getUserBet())
+                .userBet(Integer.valueOf(object.getUserBet()))
                 .build();
     }
 

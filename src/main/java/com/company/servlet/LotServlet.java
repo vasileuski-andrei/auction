@@ -48,7 +48,6 @@ public class LotServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         var user = (UserDto) req.getSession().getAttribute("user");
-        var currentBet = Integer.valueOf(req.getParameter("bet"));
         var placeBetDto = PlaceBetDto.builder()
                 .lotName(lotName)
                 .lotId(lotId)
@@ -56,7 +55,7 @@ public class LotServlet extends HttpServlet {
                 .userName(user.getName())
                 .startBet(Integer.valueOf(bet))
                 .lastBet(Integer.valueOf(lastBet))
-                .userBet(currentBet)
+                .userBet(req.getParameter("userBet"))
                 .userPlacedLastBet(userPlacedLastBet)
                 .build();
 

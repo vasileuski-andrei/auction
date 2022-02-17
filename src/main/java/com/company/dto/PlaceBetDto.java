@@ -13,6 +13,6 @@ public class PlaceBetDto {
     String userName;
     Integer startBet;
     Integer lastBet;
-    Integer userBet;
+    String userBet;
     String userPlacedLastBet;
 }
