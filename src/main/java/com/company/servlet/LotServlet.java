@@ -1,6 +1,5 @@
 package com.company.servlet;
 
-import com.company.dto.BetDto;
 import com.company.dto.PlaceBetDto;
 import com.company.dto.UserDto;
 import com.company.exception.ValidationException;
@@ -14,6 +13,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 @WebServlet("/lot")
 public class LotServlet extends HttpServlet {
@@ -23,17 +24,24 @@ public class LotServlet extends HttpServlet {
     private String lotName;
     private String bet;
     private String lastBet;
+    private String userPlacedLastBet;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         lotId = Integer.valueOf(req.getParameter("lotId"));
         lotName = req.getParameter("lotName");
         bet = req.getParameter("startBet");
-        lastBet = req.getParameter("lastBet");
         var allBetByLotId = betService.getAllBetByLotId(lotId);
+        userPlacedLastBet  = !allBetByLotId.isEmpty()
+                ? allBetByLotId.get(allBetByLotId.size()-1).getUserName() : req.getParameter("lotOwner");
+        var reqParamLastBet = req.getParameter("lastBet");
+        if (!Objects.equals(reqParamLastBet, "null")) {
+            lastBet = reqParamLastBet;
+        } else {
+            lastBet = bet;
+        }
 
         req.setAttribute("bets", allBetByLotId);
-//        req.setAttribute("lotName", allBetByLotId.stream().reduce(f -> f.getLotName())
         req.getRequestDispatcher("WEB-INF/jsp/lot.jsp").forward(req, resp);
     }
 
@@ -49,6 +57,7 @@ public class LotServlet extends HttpServlet {
                 .startBet(Integer.valueOf(bet))
                 .lastBet(Integer.valueOf(lastBet))
                 .userBet(currentBet)
+                .userPlacedLastBet(userPlacedLastBet)
                 .build();
 
         try {
@@ -58,7 +67,6 @@ public class LotServlet extends HttpServlet {
             req.setAttribute("errors", e.getErrors());
             req.getRequestDispatcher("WEB-INF/jsp/market.jsp").forward(req, resp);
 //            doGet(req, resp);
-//            resp.sendRedirect("lot?lotId=" + lotId + "&lotName=" + lotName + "&startBet=" + bet);
 
         } catch (SQLException e) {
             e.printStackTrace();

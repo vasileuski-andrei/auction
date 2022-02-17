@@ -35,7 +35,7 @@
 
                         <tr>
                             <td>${lot.id}</td>
-                            <td><a href="${pageContext.request.contextPath}/lot?lotId=${lot.id}&lotName=${lot.lotName}&startBet=${lot.startPrice}&lastBet=${lot.lastBet}">${lot.lotName}</a></td>
+                            <td><a href="${pageContext.request.contextPath}/lot?lotId=${lot.id}&lotName=${lot.lotName}&startBet=${lot.startPrice}&lastBet=${lot.lastBet}&lotOwner=${lot.owner}">${lot.lotName}</a></td>
                             <td>${lot.owner}</td>
                             <td>${lot.startPrice} $</td>
                             <c:choose>

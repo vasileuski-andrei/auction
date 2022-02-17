@@ -1,5 +1,6 @@
 package com.company.validator;
 
+import com.company.dto.BetDto;
 import com.company.dto.PlaceBetDto;
 import lombok.NoArgsConstructor;
 
@@ -12,15 +13,21 @@ public class PlaceBetValidator implements Validator<PlaceBetDto> {
 
     private static final PlaceBetValidator INSTANCE = new PlaceBetValidator();
     private static final Map<Integer, List<Integer>> lotIdsAndBiddersIds = new HashMap<>();
-    
+
+
     @Override
     public ValidationResult validateData(PlaceBetDto object) {
         var validationResult = new ValidationResult();
         var lotId = object.getLotId();
         var userBet = object.getUserBet();
 
-        if (userBet <= object.getStartBet() || userBet.equals(object.getLastBet())) {
-            validationResult.add(Error.of("invalid-username", "ERROR-PRICE"));
+        if (object.getUserName().equals(object.getUserPlacedLastBet())) {
+            validationResult.add(Error.of("double-bet", "You can't place two bets in a row"));
+            return validationResult;
+        }
+
+        if (userBet <= object.getStartBet() || userBet <=object.getLastBet()) {
+            validationResult.add(Error.of("low-bet", "Your bet should be greater than current bet"));
             return validationResult;
         }
 
@@ -28,7 +35,7 @@ public class PlaceBetValidator implements Validator<PlaceBetDto> {
             var biddersId = lotIdsAndBiddersIds.get(lotId);
 
             if (Objects.equals(object.getUserId(), biddersId.get(biddersId.size() - 1))) {
-                validationResult.add(Error.of("invalid-username", "Nelzia stavit 2 raza podriad"));
+                validationResult.add(Error.of("double-bet", "You can't place two bets in a row"));
             return validationResult;
 
             } else {

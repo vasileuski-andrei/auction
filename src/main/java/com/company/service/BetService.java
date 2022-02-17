@@ -46,7 +46,6 @@ public class BetService {
                 .userBet(betEntity.getUserBet())
                 .build()).collect(toList());
 
-
     }
 
     public static BetService getInstance() {
