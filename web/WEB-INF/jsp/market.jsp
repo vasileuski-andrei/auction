@@ -30,6 +30,7 @@
                         <th>START PRICE</th>
                         <th>LAST BET</th>
                         <th>STATUS</th>
+                        <th>TIME</th>
                     </tr>
                     <c:forEach var="lot" items="${requestScope.lots}">
 
@@ -47,6 +48,7 @@
                                 </c:otherwise>
                             </c:choose>
                             <td>${lot.lotStatus}</td>
+                            <td>${lot.time}</td>
 
                         </tr>
 

@@ -1,14 +1,14 @@
 package com.company.util;
 
+import lombok.experimental.UtilityClass;
+
 import java.io.IOException;
 import java.util.Properties;
 
+@UtilityClass
 public final class PropertiesUtil {
 
     private static final Properties PROPERTIES = new Properties();
-
-    private PropertiesUtil() {
-    }
 
     static {
         loadProperties();

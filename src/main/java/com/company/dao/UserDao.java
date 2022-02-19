@@ -61,7 +61,7 @@ public class UserDao implements Dao<Integer, UserEntity> {
     }
 
     @Override
-    public void save(UserEntity userEntity) throws SQLException {
+    public UserEntity save(UserEntity userEntity) throws SQLException {
         try (var connection = ConnectionManager.getConnection();
              var preparedStatement = connection.prepareStatement(SAVE_SQL, RETURN_GENERATED_KEYS)) {
             preparedStatement.setObject(1, userEntity.getName());
@@ -71,10 +71,12 @@ public class UserDao implements Dao<Integer, UserEntity> {
 
             preparedStatement.executeUpdate();
             var generatedKeys = preparedStatement.getGeneratedKeys();
-            if (generatedKeys.next()) {
-                userEntity.setId(generatedKeys.getObject("id", Integer.class));
-            }
+            generatedKeys.next();
+            userEntity.setId(generatedKeys.getObject("id", Integer.class));
+
         }
+
+        return userEntity;
     }
 
     @Override

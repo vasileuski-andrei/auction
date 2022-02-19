@@ -1,6 +1,7 @@
 package com.company.util;
 
 import lombok.SneakyThrows;
+import lombok.experimental.UtilityClass;
 
 import java.lang.reflect.Proxy;
 import java.sql.Connection;
@@ -11,6 +12,7 @@ import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
+@UtilityClass
 public final class ConnectionManager {
 
     private static final String URL_KEY = "db.url";
@@ -20,9 +22,6 @@ public final class ConnectionManager {
     private static final Integer DEFAULT_POOL_SIZE = 5;
     private static BlockingQueue<Connection> pool;
     private static List<Connection> originalConnections;
-
-    private ConnectionManager() {
-    }
 
     static {
         loadDriver();

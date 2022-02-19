@@ -28,7 +28,7 @@
                     <input type="text" name="price" id="price" required>
                 </label><br>
                 <label for="term">Sale term:
-                    <input type="text" name="term" id="term" required>
+                    <input type="time" name="term" id="term" required>
                 </label><br>
                 <button type="submit">Submit</button>
 

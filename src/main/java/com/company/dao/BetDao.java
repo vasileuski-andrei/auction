@@ -7,10 +7,12 @@ import lombok.SneakyThrows;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static java.sql.Statement.RETURN_GENERATED_KEYS;
 import static lombok.AccessLevel.PRIVATE;
 
 @NoArgsConstructor(access = PRIVATE)
@@ -67,18 +69,23 @@ public class BetDao implements Dao<Integer, BetEntity> {
     }
 
     @Override
-    public void save(BetEntity entity) throws SQLException {
+    public BetEntity save(BetEntity betEntity) throws SQLException {
         try (var connection = ConnectionManager.getConnection();
-             var preparedStatement = connection.prepareStatement(PLACE_BET_SQL)) {
+             var preparedStatement = connection.prepareStatement(PLACE_BET_SQL, RETURN_GENERATED_KEYS)) {
 
-            preparedStatement.setObject(1, entity.getLotName());
-            preparedStatement.setObject(2, entity.getLotId());
-            preparedStatement.setObject(3, entity.getUserName());
-            preparedStatement.setObject(4, entity.getUserBet());
+            preparedStatement.setObject(1, betEntity.getLotName());
+            preparedStatement.setObject(2, betEntity.getLotId());
+            preparedStatement.setObject(3, betEntity.getUserName());
+            preparedStatement.setObject(4, betEntity.getUserBet());
 
             preparedStatement.executeUpdate();
+            var generatedKeys = preparedStatement.getGeneratedKeys();
+            generatedKeys.next();
+            betEntity.setId(generatedKeys.getObject("id", Integer.class));
 
         }
+
+        return betEntity;
     }
 
     public static BetDao getInstance () {

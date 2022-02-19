@@ -25,7 +25,6 @@ public class AddNewLotServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
         var user = (UserDto) req.getSession().getAttribute("user");
         var createLotDto = CreateLotDto.builder()
                 .lotName(req.getParameter("lot"))

@@ -8,10 +8,12 @@ import lombok.SneakyThrows;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static java.sql.Statement.RETURN_GENERATED_KEYS;
 import static lombok.AccessLevel.PRIVATE;
 
 @NoArgsConstructor(access = PRIVATE)
@@ -87,16 +89,21 @@ public class LotDao implements Dao<Integer, LotEntity> {
 
     @SneakyThrows
     @Override
-    public void save(LotEntity lotEntity) {
+    public LotEntity save(LotEntity lotEntity) {
         try (var connection = ConnectionManager.getConnection();
-            var preparedStatement = connection.prepareStatement(ADD_NEW_LOT_SQL)) {
+            var preparedStatement = connection.prepareStatement(ADD_NEW_LOT_SQL, RETURN_GENERATED_KEYS)) {
             preparedStatement.setObject(1, lotEntity.getLotName());
             preparedStatement.setObject(2, lotEntity.getOwner());
             preparedStatement.setObject(3, findIdByLotStatusName(String.valueOf(lotEntity.getLotStatus())).get());
             preparedStatement.setObject(4, lotEntity.getStartPrice());
 
             preparedStatement.executeUpdate();
+            var generatedKeys = preparedStatement.getGeneratedKeys();
+            generatedKeys.next();
+            lotEntity.setId(generatedKeys.getObject("id", Integer.class));
         }
+
+        return lotEntity;
     }
 
 

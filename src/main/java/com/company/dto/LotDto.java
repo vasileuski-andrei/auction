@@ -13,5 +13,6 @@ public class LotDto {
     String lotStatus;
     String startPrice;
     String lastBet;
+    Integer time;
 
 }
