@@ -55,7 +55,7 @@ public class CreateUserValidator implements Validator<CreateUserDto> {
             validationResult.add(Error.of("invalid-pass", "Password can't contain spaces."));
         }
 
-        if (userPassword.length() < 3 || userPassword.length() > 30) {
+        if (userPassword.length() < 5 || userPassword.length() > 30) {
             validationResult.add(Error.of("invalid-pass", "Password should be at least 5 characters and max 30 characters."));
         }
 

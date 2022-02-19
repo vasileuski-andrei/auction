@@ -3,12 +3,14 @@ package com.company.service;
 import com.company.dao.LotDao;
 import com.company.dto.CreateLotDto;
 import com.company.dto.LotDto;
-import com.company.entity.LotEntity;
+import com.company.exception.ValidationException;
 import com.company.mapper.CreateLotMapper;
 import com.company.util.LotCountdown;
+import com.company.validator.CreateLotValidator;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
 
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -22,6 +24,7 @@ public class LotService {
     private static final LotService INSTANCE = new LotService();
     private static final LotDao lotDao = LotDao.getInstance();
     private static final CreateLotMapper createLotMapper = CreateLotMapper.getInstance();
+    private static final CreateLotValidator createLotValidator = CreateLotValidator.getInstance();
 //    private final BetService betService = BetService.getInstance();
     private static final Map<Integer, LotCountdown> lotCountdown = new ConcurrentHashMap<>();
 
@@ -33,23 +36,26 @@ public class LotService {
                 .lotStatus(String.valueOf(lotDao.getLotStatus()))
                 .startPrice(String.valueOf(lotDao.getStartPrice()))
                 .lastBet(String.valueOf(lotDao.getLastPrice()))
-                .time(lotCountdown.get(lotDao.getId()).getTime())
+                .time(lotCountdown.get(lotDao.getId()).getSaleRemainingTime())
                 .build()).collect(toList());
 
     }
 
     @SneakyThrows
     public void addNewLot(CreateLotDto createLotDto) {
-
+        var validationResult = createLotValidator.validateData(createLotDto);
+        if (!validationResult.isValid()) {
+            throw new ValidationException(validationResult.getErrors());
+        }
 
         var lotEntity = createLotMapper.mapFrom(createLotDto);
         var savedLotEntity = lotDao.save(lotEntity);
-        runLotCountdown(savedLotEntity.getId());
+        runLotCountdown(createLotDto.getSaleTerm(), savedLotEntity.getId());
 
     }
 
-    private void runLotCountdown(Integer lotId) {
-        lotCountdown.put(lotId, new LotCountdown());
+    private void runLotCountdown(String saleTerm, Integer lotId) {
+        lotCountdown.put(lotId, new LotCountdown(LocalTime.parse(saleTerm).toSecondOfDay()));
 
     }
 

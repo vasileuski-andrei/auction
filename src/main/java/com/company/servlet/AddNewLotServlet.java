@@ -29,7 +29,7 @@ public class AddNewLotServlet extends HttpServlet {
         var createLotDto = CreateLotDto.builder()
                 .lotName(req.getParameter("lot"))
                 .owner(user.getName())
-                .startPrice(req.getParameter("price"))
+                .startBet(req.getParameter("price"))
                 .saleTerm(req.getParameter("term"))
                 .lotStatus(LotStatus.SELL)
                 .build();
@@ -37,8 +37,8 @@ public class AddNewLotServlet extends HttpServlet {
         try {
             lotService.addNewLot(createLotDto);
             resp.sendRedirect("/market");
-        } catch (Exception e) {
-            req.setAttribute("errors", e);
+        } catch (ValidationException e) {
+            req.setAttribute("errors", e.getErrors());
             doGet(req, resp);
         }
 

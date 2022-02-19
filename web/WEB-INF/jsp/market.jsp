@@ -30,7 +30,7 @@
                         <th>START PRICE</th>
                         <th>LAST BET</th>
                         <th>STATUS</th>
-                        <th>TIME</th>
+                        <th>TIME LEFT</th>
                     </tr>
                     <c:forEach var="lot" items="${requestScope.lots}">
 

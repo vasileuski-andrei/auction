@@ -24,21 +24,19 @@
                 <label for="lot">Lot name:
                     <input type="text" name="lot" id="lot" required>
                 </label><br>
-                <label for="price">Start price:
+                <label for="price">Start bet:
                     <input type="text" name="price" id="price" required>
                 </label><br>
                 <label for="term">Sale term:
                     <input type="time" name="term" id="term" required>
                 </label><br>
                 <button type="submit">Submit</button>
-
                 <c:if test="${not empty requestScope.errors}">
-                    <spa>ERROR</spa>
-<%--                    <div>--%>
-<%--                        <c:forEach var="error" items="${requestScope.errors}">--%>
-<%--                            <span>${error}</span>--%>
-<%--                        </c:forEach>--%>
-<%--                    </div>--%>
+                    <div>
+                        <c:forEach var="error" items="${requestScope.errors}">
+                            <span class="alert-message">${error.message}</span>
+                        </c:forEach>
+                    </div>
                 </c:if>
 
             </form>

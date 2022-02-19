@@ -10,7 +10,7 @@ public class CreateLotDto {
 
     String lotName;
     String owner;
-    String startPrice;
+    String startBet;
     String saleTerm;
     LotStatus lotStatus;
 }

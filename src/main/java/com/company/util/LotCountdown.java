@@ -2,6 +2,7 @@ package com.company.util;
 
 import lombok.Data;
 
+import java.time.LocalTime;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -9,9 +10,10 @@ import java.util.TimerTask;
 public class LotCountdown implements Runnable {
 
     private Thread thread;
-    private Integer time = 1000;
+    private Integer saleTimeInSeconds;
 
-    public LotCountdown() {
+    public LotCountdown(Integer saleTimeInSeconds) {
+        this.saleTimeInSeconds = saleTimeInSeconds;
         thread = new Thread(this);
         thread.start();
     }
@@ -23,9 +25,9 @@ public class LotCountdown implements Runnable {
 
             public void run() {
 
-                time--;
+                saleTimeInSeconds--;
 
-                if (time == 0) {
+                if (saleTimeInSeconds == 0) {
                     timer.cancel();
 
                 }
@@ -33,6 +35,10 @@ public class LotCountdown implements Runnable {
         }, 0, 1000);
 
 
+    }
+
+    public String getSaleRemainingTime() {
+        return LocalTime.MIN.plusSeconds(saleTimeInSeconds).toString();
     }
 
 

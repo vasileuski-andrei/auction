@@ -2,7 +2,6 @@ package com.company.mapper;
 
 import com.company.dto.CreateLotDto;
 import com.company.entity.LotEntity;
-import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -17,7 +16,7 @@ public class CreateLotMapper implements Mapper <CreateLotDto, LotEntity> {
         return LotEntity.builder()
                 .lotName(object.getLotName())
                 .owner(object.getOwner())
-                .startPrice(Integer.parseInt(object.getStartPrice()))
+                .startPrice(Integer.parseInt(object.getStartBet()))
                 .lotStatus(object.getLotStatus())
                 .build();
     }
