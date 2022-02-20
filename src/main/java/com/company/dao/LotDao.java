@@ -8,7 +8,6 @@ import lombok.SneakyThrows;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -34,7 +33,7 @@ public class LotDao implements Dao<Integer, LotEntity> {
         JOIN status st ON l.status_id = st.id
         """;
 
-    private static final String FIND_BY_ID_SQL = """
+    private static final String FIND_LOT_STATUS_BY_ID_SQL = """
         SELECT id
         FROM status
         WHERE lot_status = ?
@@ -49,6 +48,12 @@ public class LotDao implements Dao<Integer, LotEntity> {
     private static final String ADD_NEW_LOT_SQL = """
         INSERT INTO lot (lot_name, owner, status_id, start_price)
         VALUES (?, ?, ?, ?)
+        """;
+
+    private static final String UPDATE_LOT_BY_ID_SQL = """
+        UPDATE lot
+        SET status_id = ?
+        WHERE id = ?
         """;
 
     @SneakyThrows
@@ -88,6 +93,21 @@ public class LotDao implements Dao<Integer, LotEntity> {
     }
 
     @SneakyThrows
+    public void updateLotStatusById(Integer lotId, LotStatus lotStatus) {
+
+        try (var connection = ConnectionManager.getConnection();
+             var preparedStatement = connection.prepareStatement(UPDATE_LOT_BY_ID_SQL)) {
+
+            preparedStatement.setObject(1, findIdByLotStatusName(String.valueOf(lotStatus)).get());
+            preparedStatement.setObject(2, lotId);
+
+            preparedStatement.executeUpdate();
+
+        }
+
+    }
+
+    @SneakyThrows
     @Override
     public LotEntity save(LotEntity lotEntity) {
         try (var connection = ConnectionManager.getConnection();
@@ -111,7 +131,7 @@ public class LotDao implements Dao<Integer, LotEntity> {
         Integer id = null;
 
         try (var connection = ConnectionManager.getConnection();
-             var preparedStatement = connection.prepareStatement(FIND_BY_ID_SQL)) {
+             var preparedStatement = connection.prepareStatement(FIND_LOT_STATUS_BY_ID_SQL)) {
 
             preparedStatement.setObject(1, findId);
             var resultSet = preparedStatement.executeQuery();

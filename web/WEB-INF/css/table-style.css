@@ -77,10 +77,11 @@ tr:last-child td.last {
 }
 
 .lot-status-sell {
-	color: green;
+	color: forestgreen;
 	font-weight: bold;
 }
 
 .lot-status-sold {
 	color: red;
+	font-weight: bold;
 }

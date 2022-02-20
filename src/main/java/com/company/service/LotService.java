@@ -3,6 +3,7 @@ package com.company.service;
 import com.company.dao.LotDao;
 import com.company.dto.CreateLotDto;
 import com.company.dto.LotDto;
+import com.company.entity.LotStatus;
 import com.company.exception.ValidationException;
 import com.company.mapper.CreateLotMapper;
 import com.company.util.LotCountdown;
@@ -53,8 +54,13 @@ public class LotService {
 
     }
 
+    public void updateLotStatus(Integer lotId, LotStatus lotStatus) {
+        lotDao.updateLotStatusById(lotId, lotStatus);
+
+    }
+
     private void runLotCountdown(String saleTerm, Integer lotId) {
-        lotCountdown.put(lotId, new LotCountdown(LocalTime.parse(saleTerm).toSecondOfDay()));
+        lotCountdown.put(lotId, new LotCountdown(lotId, LocalTime.parse(saleTerm).toSecondOfDay()));
 
     }
 
