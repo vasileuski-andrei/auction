@@ -38,6 +38,9 @@ public class LotCountdown implements Runnable {
     }
 
     public String getSaleRemainingTime() {
+        if (saleTimeInSeconds == null) {
+            return "-";
+        }
         return LocalTime.MIN.plusSeconds(saleTimeInSeconds).toString();
     }
 

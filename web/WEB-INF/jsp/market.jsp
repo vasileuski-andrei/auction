@@ -47,7 +47,7 @@
                                     <td>-</td>
                                 </c:otherwise>
                             </c:choose>
-                            <td>${lot.lotStatus}</td>
+                            <td><span class="lot-status-sell">${lot.lotStatus}</span></td>
                             <td>${lot.time}</td>
 
                         </tr>

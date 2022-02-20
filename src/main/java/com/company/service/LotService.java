@@ -25,7 +25,6 @@ public class LotService {
     private static final LotDao lotDao = LotDao.getInstance();
     private static final CreateLotMapper createLotMapper = CreateLotMapper.getInstance();
     private static final CreateLotValidator createLotValidator = CreateLotValidator.getInstance();
-//    private final BetService betService = BetService.getInstance();
     private static final Map<Integer, LotCountdown> lotCountdown = new ConcurrentHashMap<>();
 
     public List<LotDto> getAllLot() {
@@ -36,7 +35,7 @@ public class LotService {
                 .lotStatus(String.valueOf(lotDao.getLotStatus()))
                 .startPrice(String.valueOf(lotDao.getStartPrice()))
                 .lastBet(String.valueOf(lotDao.getLastPrice()))
-                .time(lotCountdown.get(lotDao.getId()).getSaleRemainingTime())
+                .time(getRemainingSaleTime(lotDao.getId()))
                 .build()).collect(toList());
 
     }
@@ -57,6 +56,10 @@ public class LotService {
     private void runLotCountdown(String saleTerm, Integer lotId) {
         lotCountdown.put(lotId, new LotCountdown(LocalTime.parse(saleTerm).toSecondOfDay()));
 
+    }
+
+    private String getRemainingSaleTime(Integer lotId) {
+        return lotCountdown.get(lotId) != null ? lotCountdown.get(lotId).getSaleRemainingTime() : "-";
     }
 
     public static LotService getInstance() {

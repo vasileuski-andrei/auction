@@ -75,3 +75,12 @@ tr:last-child td.last {
 	-moz-border-radius-bottomright:5px;
 	-webkit-border-bottom-right-radius:5px; /* Saf3-4 */
 }
+
+.lot-status-sell {
+	color: green;
+	font-weight: bold;
+}
+
+.lot-status-sold {
+	color: red;
+}
