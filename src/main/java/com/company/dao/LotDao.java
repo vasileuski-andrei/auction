@@ -94,7 +94,6 @@ public class LotDao implements Dao<Integer, LotEntity> {
 
     @SneakyThrows
     public void updateLotStatusById(Integer lotId, LotStatus lotStatus) {
-
         try (var connection = ConnectionManager.getConnection();
              var preparedStatement = connection.prepareStatement(UPDATE_LOT_BY_ID_SQL)) {
 

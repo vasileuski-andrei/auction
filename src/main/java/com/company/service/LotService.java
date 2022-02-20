@@ -71,4 +71,8 @@ public class LotService {
     public static LotService getInstance() {
         return INSTANCE;
     }
+
+    public static Map<Integer, LotCountdown> getLotCountdown() {
+        return lotCountdown;
+    }
 }

@@ -2,6 +2,7 @@ package com.company.servlet;
 
 import com.company.dto.PlaceBetDto;
 import com.company.dto.UserDto;
+import com.company.exception.LotSaleTimeElapsedException;
 import com.company.exception.ValidationException;
 import com.company.service.BetService;
 import jakarta.servlet.ServletException;
@@ -62,10 +63,9 @@ public class LotServlet extends HttpServlet {
         try {
             betService.placeBet(placeBetDto);
             resp.sendRedirect("/market");
-        } catch (ValidationException e) {
+        } catch (LotSaleTimeElapsedException e) {
             req.setAttribute("errors", e.getErrors());
             req.getRequestDispatcher("WEB-INF/jsp/market.jsp").forward(req, resp);
-//            doGet(req, resp);
 
         } catch (SQLException e) {
             e.printStackTrace();

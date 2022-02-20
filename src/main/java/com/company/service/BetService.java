@@ -4,13 +4,18 @@ import com.company.dao.BetDao;
 import com.company.dto.BetDto;
 import com.company.dto.LotDto;
 import com.company.dto.PlaceBetDto;
+import com.company.exception.LotSaleTimeElapsedException;
 import com.company.exception.ValidationException;
 import com.company.mapper.CreateBetMapper;
+import com.company.util.LotCountdown;
+import com.company.validator.Error;
 import com.company.validator.PlaceBetValidator;
+import com.company.validator.ValidationResult;
 import lombok.NoArgsConstructor;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.*;
@@ -24,9 +29,14 @@ public class BetService {
     private final CreateBetMapper createBetMapper = CreateBetMapper.getInstance();
     private final BetDao betDao = BetDao.getInstance();
     private final PlaceBetValidator placeBetValidator = PlaceBetValidator.getInstance();
+    private final Map<Integer, LotCountdown> lotCountdown = LotService.getLotCountdown();
 
     public void placeBet(PlaceBetDto placeBetDto) throws SQLException {
-        //validation
+        if (!lotCountdown.containsKey(placeBetDto.getLotId())) {
+            ValidationResult validationSaleTimeResult = new ValidationResult();
+            validationSaleTimeResult.add(Error.of("double-bet", "You can't place a bet after elapsed sale time"));
+            throw new LotSaleTimeElapsedException(validationSaleTimeResult.getErrors());
+        }
 
         var validationResult = placeBetValidator.validateData(placeBetDto);
         if (!validationResult.isValid()) {
