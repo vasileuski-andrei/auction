@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <header class="header">
 
     <div class="common-header-wrapper">
@@ -42,7 +43,7 @@
                 </div>
 
                 <form class="search-form" action="index.html">
-                    <input class="search" type="text" name="info" placeholder="Поиск по сайту...">
+                    <input class="search" type="text" name="info" placeholder="Search">
                     <input class="button" type="submit" name="sub" value="">
                 </form>
             </div>
@@ -51,12 +52,12 @@
         <div class="middle-header-container">
 
             <div class="header-title">Auction</div>
-            <div class="header-description">Информация о магазине</div>
+<%--            <div class="header-description">Информация о магазине</div>--%>
         </div>
 
         <div class="crumbs">
-            <a href="#">main page</a>
-            <a href="#">market</a>
+            <a href="${pageContext.request.contextPath}/index">main page</a>
+            <a href="${pageContext.request.contextPath}/market">market</a>
 <%--            <span>Гарантия и сервис</span>--%>
         </div>
     </div>

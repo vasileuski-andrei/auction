@@ -6,6 +6,8 @@
     <title>Login</title>
     <style><%@include file="/WEB-INF/css/normalize.css"%></style>
     <style><%@include file="/WEB-INF/css/style.css"%></style>
+    <style><%@include file="/WEB-INF/css/main.css"%></style>
+    <style><%@include file="/WEB-INF/css/util.css"%></style>
     <style><%@include file="/WEB-INF/css/table-style.css"%></style>
 
 </head>

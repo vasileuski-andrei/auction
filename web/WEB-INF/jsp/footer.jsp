@@ -17,11 +17,11 @@
             <!--footer-logo-left-->
             <div class="footer-logo-left"><img src="img/footer-logo.png"></div>
             <!--all-rights-reserved-->
-            <div class="all-rights-reserved">© 2015 soulfitnes.com.
-                <div>Все права защищены.</div>
+            <div class="all-rights-reserved">© 2022 auction.com.
+                <div>All rights reserved.</div>
             </div>
             <!--bottom-menu-->
-            <nav class="bottom-menu"><a href="#">о компании</a><a href="#">бренды</a><a href="#">доставка</a><a href="#">дилеры</a><a href="#">контакты</a></nav>
+            <nav class="bottom-menu"><a href="${pageContext.request.contextPath}/market">market</a><a href="#">delivery</a><a href="#">cashbox</a><a href="#">faq</a><a href="#">contacts</a></nav>
             <!--footer-logo-right-->
             <div class="footer-logo-right"><img src="img/footer-logo-swd.png"></div>
         </div>
