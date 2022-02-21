@@ -24,15 +24,17 @@ public class LotServlet extends HttpServlet {
     private String bet;
     private String lastBid;
     private String userPlacedLastBid;
+    private String lotOwner;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         lotId = Integer.valueOf(req.getParameter("lotId"));
         lotName = req.getParameter("lotName");
         bet = req.getParameter("startBid");
+        lotOwner = req.getParameter("lotOwner");
         var allBetByLotId = bidService.getAllBidByLotId(lotId);
         userPlacedLastBid = !allBetByLotId.isEmpty()
-                ? allBetByLotId.get(allBetByLotId.size()-1).getUserName() : req.getParameter("lotOwner");
+                ? allBetByLotId.get(allBetByLotId.size()-1).getUserName() : lotOwner;
         var reqParamLastBet = req.getParameter("lastBid");
         if (!Objects.equals(reqParamLastBet, "null")) {
             lastBid = reqParamLastBet;
@@ -50,6 +52,7 @@ public class LotServlet extends HttpServlet {
         var placeBidDto = PlaceBidDto.builder()
                 .lotName(lotName)
                 .lotId(lotId)
+                .lotOwner(lotOwner)
                 .userId(user.getId())
                 .userName(user.getName())
                 .startBid(Integer.valueOf(bet))

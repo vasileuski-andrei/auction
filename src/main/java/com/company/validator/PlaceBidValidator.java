@@ -27,6 +27,7 @@ public class PlaceBidValidator implements Validator<PlaceBidDto> {
         placeBidDto = object;
         validationResult = new ValidationResult();
 
+        checkBidOnOwner();
         checkLotSaleTime();
         checkInputCharacterInBidField();
         checkDoubleBidInARow();
@@ -34,9 +35,16 @@ public class PlaceBidValidator implements Validator<PlaceBidDto> {
         return validationResult;
     }
 
+    private void checkBidOnOwner() {
+        if (placeBidDto.getUserName().equals(placeBidDto.getLotOwner())) {
+            validationResult.add(Error.of("owner-bid", "It's your lot. You can't place a bid."));
+            throw new LotSaleTimeElapsedException(validationResult.getErrors());
+        }
+    }
+
     private void checkLotSaleTime() {
         if (lotCountdown != null && !lotCountdown.containsKey(placeBidDto.getLotId())) {
-            validationResult.add(Error.of("double-bet", "You can't place a bet after elapsed sale time"));
+            validationResult.add(Error.of("double-bid", "You can't place a bet after elapsed sale time"));
             throw new LotSaleTimeElapsedException(validationResult.getErrors());
         }
     }

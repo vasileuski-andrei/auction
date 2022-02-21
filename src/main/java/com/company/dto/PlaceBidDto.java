@@ -9,6 +9,7 @@ public class PlaceBidDto {
 
     private String lotName;
     private Integer lotId;
+    private String lotOwner;
     private Integer userId;
     private String userName;
     private Integer startBid;
