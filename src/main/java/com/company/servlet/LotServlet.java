@@ -47,7 +47,7 @@ public class LotServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         var user = (UserDto) req.getSession().getAttribute("user");
-        var placeBetDto = PlaceBidDto.builder()
+        var placeBidDto = PlaceBidDto.builder()
                 .lotName(lotName)
                 .lotId(lotId)
                 .userId(user.getId())
@@ -59,17 +59,15 @@ public class LotServlet extends HttpServlet {
                 .build();
 
         try {
-            bidService.placeBet(placeBetDto);
+            bidService.placeBid(placeBidDto);
             resp.sendRedirect("/market");
 
         } catch (LotSaleTimeElapsedException e) {
             req.setAttribute("errors", e.getErrors());
             req.getRequestDispatcher("WEB-INF/jsp/market.jsp").forward(req, resp);
-
         } catch (ValidationException e) {
             req.setAttribute("errors", e.getErrors());
             req.getRequestDispatcher("WEB-INF/jsp/market.jsp").forward(req, resp);
-
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -52,7 +52,7 @@ public class LotDao implements Dao<Integer, LotEntity> {
 
     private static final String UPDATE_LOT_BY_ID_SQL = """
         UPDATE lot
-        SET status_id = ?
+        SET status_id = ?, lot_buyer = ?
         WHERE id = ?
         """;
 
@@ -87,24 +87,35 @@ public class LotDao implements Dao<Integer, LotEntity> {
 
     }
 
+    @SneakyThrows
     @Override
     public void update(LotEntity entity) {
-
-    }
-
-    @SneakyThrows
-    public void updateLotStatusById(Integer lotId, LotStatus lotStatus) {
         try (var connection = ConnectionManager.getConnection();
              var preparedStatement = connection.prepareStatement(UPDATE_LOT_BY_ID_SQL)) {
 
-            preparedStatement.setObject(1, findIdByLotStatusName(String.valueOf(lotStatus)).get());
-            preparedStatement.setObject(2, lotId);
+            preparedStatement.setObject(1, findIdByLotStatusName(String.valueOf(entity.getLotStatus())).get());
+            preparedStatement.setObject(2, entity.getLotBuyer());
+            preparedStatement.setObject(3, entity.getId());
 
             preparedStatement.executeUpdate();
 
         }
 
     }
+
+//    @SneakyThrows
+//    public void updateLotStatusById(Integer lotId, LotStatus lotStatus) {
+//        try (var connection = ConnectionManager.getConnection();
+//             var preparedStatement = connection.prepareStatement(UPDATE_LOT_BY_ID_SQL)) {
+//
+//            preparedStatement.setObject(1, findIdByLotStatusName(String.valueOf(lotStatus)).get());
+//            preparedStatement.setObject(2, lotId);
+//
+//            preparedStatement.executeUpdate();
+//
+//        }
+//
+//    }
 
     @SneakyThrows
     @Override

@@ -17,4 +17,5 @@ public class LotEntity {
     private Integer startBid;
     private LotStatus lotStatus;
     private Integer lastBid;
+    private String lotBuyer;
 }

@@ -26,14 +26,10 @@ public class BidService {
     private final CreateBidMapper createBidMapper = CreateBidMapper.getInstance();
     private final BidDao bidDao = BidDao.getInstance();
     private final PlaceBidValidator placeBidValidator = PlaceBidValidator.getInstance();
-    private final Map<Integer, LotCountdown> lotCountdown = LotService.getLotCountdown();
+//    private PlaceBidDto placeBidDto;
 
-    public void placeBet(PlaceBidDto placeBidDto) throws SQLException {
-        if (!lotCountdown.containsKey(placeBidDto.getLotId())) {
-            ValidationResult validationSaleTimeResult = new ValidationResult();
-            validationSaleTimeResult.add(Error.of("double-bet", "You can't place a bet after elapsed sale time"));
-            throw new LotSaleTimeElapsedException(validationSaleTimeResult.getErrors());
-        }
+    public void placeBid(PlaceBidDto placeBidDto) throws SQLException {
+//        placeBidDto = bidDto;
 
         var validationResult = placeBidValidator.validateData(placeBidDto);
         if (!validationResult.isValid()) {
@@ -54,6 +50,10 @@ public class BidService {
                 .build()).collect(toList());
 
     }
+
+//    public PlaceBidDto getPlaceBidDto() {
+//        return placeBidDto;
+//    }
 
     public static BidService getInstance() {
         return INSTANCE;

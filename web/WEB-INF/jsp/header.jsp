@@ -6,7 +6,8 @@
     <div class="common-header-wrapper">
 
         <div class="top-header-container">
-            <!--logo--><a class="logo" href="index"><img src="img/logo.png"></a>
+            <a class="logo" href="index"><img src="${pageContext.request.contextPath}/WEB-INF/img/logo.png"></a>
+
 
             <nav class="top-menu">
                 <a href="${pageContext.request.contextPath}/market">market</a>

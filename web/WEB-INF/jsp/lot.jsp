@@ -56,7 +56,7 @@
                     </div>
 
                     <div class="container-login100-form-btn m-t-17">
-                        <button class="login100-form-btn">Bet</button>
+                        <button class="login100-form-btn">Bid</button>
                     </div>
 
                 </form>
