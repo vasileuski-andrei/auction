@@ -16,7 +16,7 @@ public class CreateLotMapper implements Mapper <CreateLotDto, LotEntity> {
         return LotEntity.builder()
                 .lotName(object.getLotName())
                 .owner(object.getOwner())
-                .startPrice(Integer.parseInt(object.getStartBet()))
+                .startBid(Integer.parseInt(object.getStartBid()))
                 .lotStatus(object.getLotStatus())
                 .build();
     }

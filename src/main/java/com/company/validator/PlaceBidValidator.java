@@ -1,6 +1,6 @@
 package com.company.validator;
 
-import com.company.dto.PlaceBetDto;
+import com.company.dto.PlaceBidDto;
 import com.company.exception.ValidationException;
 import lombok.NoArgsConstructor;
 
@@ -9,31 +9,31 @@ import java.util.*;
 import static lombok.AccessLevel.PRIVATE;
 
 @NoArgsConstructor(access = PRIVATE)
-public class PlaceBetValidator implements Validator<PlaceBetDto> {
+public class PlaceBidValidator implements Validator<PlaceBidDto> {
 
-    private static final PlaceBetValidator INSTANCE = new PlaceBetValidator();
+    private static final PlaceBidValidator INSTANCE = new PlaceBidValidator();
     private static final Map<Integer, List<Integer>> lotIdsAndBiddersIds = new HashMap<>();
 
-    private PlaceBetDto placeBetDto;
+    private PlaceBidDto placeBidDto;
     private ValidationResult validationResult;
 
 
     @Override
-    public ValidationResult validateData(PlaceBetDto object) {
-        placeBetDto = object;
+    public ValidationResult validateData(PlaceBidDto object) {
+        placeBidDto = object;
         validationResult = new ValidationResult();
 
-        checkInputCharacterInBetField();
+        checkInputCharacterInBidField();
         checkDoubleBetInARow();
 
         return validationResult;
     }
 
     private void checkDoubleBetInARow() {
-        var lotId = placeBetDto.getLotId();
-        var userId = placeBetDto.getUserId();
+        var lotId = placeBidDto.getLotId();
+        var userId = placeBidDto.getUserId();
 
-        if (placeBetDto.getUserName().equals(placeBetDto.getUserPlacedLastBet())) {
+        if (placeBidDto.getUserName().equals(placeBidDto.getUserPlacedLastBid())) {
             validationResult.add(Error.of("double-bet", "You can't place two bets in a row"));
             throw new ValidationException(validationResult.getErrors());
         }
@@ -56,24 +56,24 @@ public class PlaceBetValidator implements Validator<PlaceBetDto> {
 
     }
 
-    private void checkInputCharacterInBetField() {
-        var strUserBet = placeBetDto.getUserBet();
-        Integer userBet = null;
+    private void checkInputCharacterInBidField() {
+        var strUserBet = placeBidDto.getUserBid();
+        Integer userBid;
 
-        if (!strUserBet.matches("[1-9]+")) {
+        if (!strUserBet.matches("[0-9]+")) {
             validationResult.add(Error.of("double-bet", "You can use only integer numbers"));
             throw new ValidationException(validationResult.getErrors());
         } else {
-            userBet = Integer.valueOf(strUserBet);
+            userBid = Integer.valueOf(strUserBet);
         }
 
-        if (userBet <= placeBetDto.getStartBet() || userBet <=placeBetDto.getLastBet()) {
+        if (userBid <= placeBidDto.getStartBid() || userBid <= placeBidDto.getLastBid()) {
             validationResult.add(Error.of("low-bet", "Your bet should be greater than current bet"));
             throw new ValidationException(validationResult.getErrors());
         }
     }
 
-    public static PlaceBetValidator getInstance() {
+    public static PlaceBidValidator getInstance() {
         return INSTANCE;
     }
 }

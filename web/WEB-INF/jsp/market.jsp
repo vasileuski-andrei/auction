@@ -28,20 +28,20 @@
                         <th>ID</th>
                         <th>LOT</th>
                         <th>OWNER</th>
-                        <th>START PRICE</th>
-                        <th>LAST BET</th>
+                        <th>START BID</th>
+                        <th>LAST BID</th>
                         <th>STATUS</th>
                         <th>TIME LEFT</th>
                     </tr>
                     <c:forEach var="lot" items="${requestScope.lots}">
                         <tr>
                             <td>${lot.id}</td>
-                            <td><a href="${pageContext.request.contextPath}/lot?lotId=${lot.id}&lotName=${lot.lotName}&startBet=${lot.startPrice}&lastBet=${lot.lastBet}&lotOwner=${lot.owner}">${lot.lotName}</a></td>
+                            <td><a href="${pageContext.request.contextPath}/lot?lotId=${lot.id}&lotName=${lot.lotName}&startBid=${lot.startBid}&lastBid=${lot.lastBid}&lotOwner=${lot.owner}">${lot.lotName}</a></td>
                             <td>${lot.owner}</td>
-                            <td>${lot.startPrice} $</td>
+                            <td>${lot.startBid} $</td>
                             <c:choose>
-                                <c:when test="${lot.lastBet != 'null'}">
-                                    <td>${lot.lastBet} $</td>
+                                <c:when test="${lot.lastBid != 'null'}">
+                                    <td>${lot.lastBid} $</td>
                                 </c:when>
                                 <c:otherwise>
                                     <td>-</td>

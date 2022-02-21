@@ -54,7 +54,7 @@
             </div>
 
             <div class="wrap-input100 validate-input m-b-16">
-                <input class="input100" type="text" name="price" placeholder="Your bet" required>
+                <input class="input100" type="text" name="price" placeholder="Your bid" required>
                 <span class="focus-input100"></span>
             </div>
 

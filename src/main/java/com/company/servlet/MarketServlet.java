@@ -1,7 +1,5 @@
 package com.company.servlet;
 
-import com.company.dto.LotDto;
-import com.company.service.BetService;
 import com.company.service.LotService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -10,7 +8,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.util.List;
 
 @WebServlet("/market")
 public class MarketServlet extends HttpServlet {

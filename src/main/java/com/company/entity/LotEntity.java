@@ -5,8 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalTime;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,7 +14,7 @@ public class LotEntity {
     private Integer id;
     private String lotName;
     private String owner;
-    private Integer startPrice;
+    private Integer startBid;
     private LotStatus lotStatus;
-    private Integer lastPrice;
+    private Integer lastBid;
 }

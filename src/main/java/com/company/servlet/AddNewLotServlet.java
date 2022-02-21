@@ -29,7 +29,7 @@ public class AddNewLotServlet extends HttpServlet {
         var createLotDto = CreateLotDto.builder()
                 .lotName(req.getParameter("lot"))
                 .owner(user.getName())
-                .startBet(req.getParameter("price"))
+                .startBid(req.getParameter("price"))
                 .saleTerm(req.getParameter("term"))
                 .lotStatus(LotStatus.SELL)
                 .build();

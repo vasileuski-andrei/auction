@@ -1,7 +1,6 @@
 package com.company.validator;
 
 import com.company.dto.CreateLotDto;
-import com.company.util.LocalDateFormatter;
 import com.company.util.LocalTimeFormatter;
 import lombok.NoArgsConstructor;
 
@@ -39,7 +38,7 @@ public class CreateLotValidator implements Validator<CreateLotDto> {
     }
 
     private void checkStartBet() {
-        var startBet = createLotDto.getStartBet();
+        var startBet = createLotDto.getStartBid();
         if (!startBet.matches("\\d+") || Integer.parseInt(startBet) <= 0) {
             validationResult.add(Error.of("invalid-bet", "Start bet should be not negative integer number"));
         }

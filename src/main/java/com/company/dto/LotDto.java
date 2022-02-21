@@ -1,18 +1,18 @@
 package com.company.dto;
 
 import lombok.Builder;
-import lombok.Value;
+import lombok.Data;
 
-@Value
+@Data
 @Builder
 public class LotDto {
 
-    Integer id;
-    String lotName;
-    String owner;
-    String lotStatus;
-    String startPrice;
-    String lastBet;
-    String time;
+    private Integer id;
+    private String lotName;
+    private String owner;
+    private String lotStatus;
+    private String startBid;
+    private String lastBid;
+    private String time;
 
 }

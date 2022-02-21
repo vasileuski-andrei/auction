@@ -1,46 +1,44 @@
 package com.company.dao;
 
-import com.company.entity.BetEntity;
+import com.company.entity.BidEntity;
 import com.company.util.ConnectionManager;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static java.sql.Statement.RETURN_GENERATED_KEYS;
 import static lombok.AccessLevel.PRIVATE;
 
 @NoArgsConstructor(access = PRIVATE)
-public class BetDao implements Dao<Integer, BetEntity> {
+public class BidDao implements Dao<Integer, BidEntity> {
 
-    private static final BetDao INSTANCE = new BetDao();
+    private static final BidDao INSTANCE = new BidDao();
 
     private static final String PLACE_BET_SQL = """
-            INSERT INTO bet (lot_name, lot_id, user_name, user_bet)
+            INSERT INTO bid (lot_name, lot_id, user_name, user_bid)
             VALUES (?, ?, ?, ?);
             """;
 
     private static final String GET_BET_BY_ID_SQL = """
-            SELECT id, lot_name, lot_id, user_name, user_bet
-            FROM bet
+            SELECT id, lot_name, lot_id, user_name, user_bid
+            FROM bid
             WHERE lot_id = ?
             """;
 
     @Override
-    public List<BetEntity> findAll() {
+    public List<BidEntity> findAll() {
         return null;
     }
 
     @SneakyThrows
     @Override
-    public List<BetEntity> findById(Integer id) {
+    public List<BidEntity> findById(Integer id) {
 
-        List<BetEntity> bet = new ArrayList<>();
+        List<BidEntity> bet = new ArrayList<>();
 
         try (var connection = ConnectionManager.getConnection();
              var preparedStatement = connection.prepareStatement(GET_BET_BY_ID_SQL)) {
@@ -64,42 +62,42 @@ public class BetDao implements Dao<Integer, BetEntity> {
     }
 
     @Override
-    public void update(BetEntity entity) {
+    public void update(BidEntity entity) {
 
     }
 
     @Override
-    public BetEntity save(BetEntity betEntity) throws SQLException {
+    public BidEntity save(BidEntity bidEntity) throws SQLException {
         try (var connection = ConnectionManager.getConnection();
              var preparedStatement = connection.prepareStatement(PLACE_BET_SQL, RETURN_GENERATED_KEYS)) {
 
-            preparedStatement.setObject(1, betEntity.getLotName());
-            preparedStatement.setObject(2, betEntity.getLotId());
-            preparedStatement.setObject(3, betEntity.getUserName());
-            preparedStatement.setObject(4, betEntity.getUserBet());
+            preparedStatement.setObject(1, bidEntity.getLotName());
+            preparedStatement.setObject(2, bidEntity.getLotId());
+            preparedStatement.setObject(3, bidEntity.getUserName());
+            preparedStatement.setObject(4, bidEntity.getUserBid());
 
             preparedStatement.executeUpdate();
             var generatedKeys = preparedStatement.getGeneratedKeys();
             generatedKeys.next();
-            betEntity.setId(generatedKeys.getObject("id", Integer.class));
+            bidEntity.setId(generatedKeys.getObject("id", Integer.class));
 
         }
 
-        return betEntity;
+        return bidEntity;
     }
 
-    public static BetDao getInstance () {
+    public static BidDao getInstance () {
         return INSTANCE;
     }
 
     @SneakyThrows
-    private BetEntity buildEntity (ResultSet resultSet) {
-        return BetEntity.builder()
+    private BidEntity buildEntity (ResultSet resultSet) {
+        return BidEntity.builder()
                 .id(resultSet.getObject("id", Integer.class))
                 .lotName(resultSet.getObject("lot_name", String.class))
                 .lotId(resultSet.getObject("lot_id", Integer.class))
                 .userName(resultSet.getObject("user_name", String.class))
-                .userBet(resultSet.getObject("user_bet", Integer.class))
+                .userBid(resultSet.getObject("user_bid", Integer.class))
                 .build();
     }
 }

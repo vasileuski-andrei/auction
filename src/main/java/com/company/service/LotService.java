@@ -34,8 +34,8 @@ public class LotService {
                 .lotName(lotDao.getLotName())
                 .owner(lotDao.getOwner())
                 .lotStatus(String.valueOf(lotDao.getLotStatus()))
-                .startPrice(String.valueOf(lotDao.getStartPrice()))
-                .lastBet(String.valueOf(lotDao.getLastPrice()))
+                .startBid(String.valueOf(lotDao.getStartBid()))
+                .lastBid(String.valueOf(lotDao.getLastBid()))
                 .time(getRemainingSaleTime(lotDao.getId()))
                 .build()).collect(toList());
 

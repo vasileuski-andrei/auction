@@ -40,13 +40,13 @@ public class LotDao implements Dao<Integer, LotEntity> {
         """;
 
     private static final String GET_LAST_BET_BY_ID_SQL = """
-        SELECT MAX(user_bet) as last_bet
-        FROM bet
+        SELECT MAX(user_bid) as last_bid
+        FROM bid
         WHERE lot_id = ?
         """;
 
     private static final String ADD_NEW_LOT_SQL = """
-        INSERT INTO lot (lot_name, owner, status_id, start_price)
+        INSERT INTO lot (lot_name, owner, status_id, start_bid)
         VALUES (?, ?, ?, ?)
         """;
 
@@ -114,7 +114,7 @@ public class LotDao implements Dao<Integer, LotEntity> {
             preparedStatement.setObject(1, lotEntity.getLotName());
             preparedStatement.setObject(2, lotEntity.getOwner());
             preparedStatement.setObject(3, findIdByLotStatusName(String.valueOf(lotEntity.getLotStatus())).get());
-            preparedStatement.setObject(4, lotEntity.getStartPrice());
+            preparedStatement.setObject(4, lotEntity.getStartBid());
 
             preparedStatement.executeUpdate();
             var generatedKeys = preparedStatement.getGeneratedKeys();
@@ -155,7 +155,7 @@ public class LotDao implements Dao<Integer, LotEntity> {
             var resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
-                id = resultSet.getObject("last_bet", Integer.class);
+                id = resultSet.getObject("last_bid", Integer.class);
             }
 
         } catch (SQLException e) {
@@ -175,8 +175,8 @@ public class LotDao implements Dao<Integer, LotEntity> {
                 .lotName(resultSet.getObject("lot_name", String.class))
                 .owner(resultSet.getObject("owner", String.class))
                 .lotStatus(LotStatus.valueOf(resultSet.getObject("lot_status", String.class)))
-                .startPrice(resultSet.getObject("start_price", Integer.class))
-                .lastPrice(getLastBet(resultSet.getObject("id", Integer.class)))
+                .startBid(resultSet.getObject("start_bid", Integer.class))
+                .lastBid(getLastBet(resultSet.getObject("id", Integer.class)))
                 .build();
     }
 

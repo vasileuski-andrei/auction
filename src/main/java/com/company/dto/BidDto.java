@@ -5,11 +5,11 @@ import lombok.Data;
 
 @Data
 @Builder
-public class BetDto {
+public class BidDto {
 
     private Integer id;
     private String lotName;
     private Integer lotId;
     private String userName;
-    private Integer userBet;
+    private Integer userBid;
 }

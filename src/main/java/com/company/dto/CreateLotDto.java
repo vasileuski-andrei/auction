@@ -2,15 +2,15 @@ package com.company.dto;
 
 import com.company.entity.LotStatus;
 import lombok.Builder;
-import lombok.Value;
+import lombok.Data;
 
-@Value
+@Data
 @Builder
 public class CreateLotDto {
 
-    String lotName;
-    String owner;
-    String startBet;
-    String saleTerm;
-    LotStatus lotStatus;
+    private String lotName;
+    private String owner;
+    private String startBid;
+    private String saleTerm;
+    private LotStatus lotStatus;
 }

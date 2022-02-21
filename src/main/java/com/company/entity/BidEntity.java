@@ -6,11 +6,11 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class BetEntity {
+public class BidEntity {
 
     private Integer id;
     private String lotName;
     private Integer lotId;
     private String userName;
-    private Integer userBet;
+    private Integer userBid;
 }
