@@ -29,11 +29,11 @@ public class CreateLotValidator implements Validator<CreateLotDto> {
     private void checkLotName() {
         String lotName = createLotDto.getLotName();
         if (lotName.length() < 2 || lotName.length() > 20) {
-            validationResult.add(Error.of("invalid-lotname", "Lot name should be at least 3 characters and max 20 characters."));
+            validationResult.add(Error.of("invalid-lotname", "Lot name should be at least 2 characters and max 20 characters."));
         }
 
-        if (!lotName.matches("[a-z]\\w+")) {
-            validationResult.add(Error.of("invalid-char", "Lot name can contain letter, number and _ "));
+        if (!lotName.matches("[A-Za-z][\\w\\s-.,!]+")) {
+            validationResult.add(Error.of("invalid-char", "Lot name can contain letter, number, spaces and .,!-_"));
         }
     }
 
