@@ -21,7 +21,7 @@ public class LotServlet extends HttpServlet {
     private final BidService bidService = BidService.getInstance();
     private Integer lotId;
     private String lotName;
-    private String bet;
+    private String startBid;
     private String lastBid;
     private String userPlacedLastBid;
     private String lotOwner;
@@ -30,19 +30,22 @@ public class LotServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         lotId = Integer.valueOf(req.getParameter("lotId"));
         lotName = req.getParameter("lotName");
-        bet = req.getParameter("startBid");
+        startBid = req.getParameter("startBid");
         lotOwner = req.getParameter("lotOwner");
-        var allBetByLotId = bidService.getAllBidByLotId(lotId);
-        userPlacedLastBid = !allBetByLotId.isEmpty()
-                ? allBetByLotId.get(allBetByLotId.size()-1).getUserName() : lotOwner;
+        var allBidByLotId = bidService.getAllBidByLotId(lotId);
+        userPlacedLastBid = !allBidByLotId.isEmpty()
+                ? allBidByLotId.get(allBidByLotId.size()-1).getUserName() : lotOwner;
         var reqParamLastBet = req.getParameter("lastBid");
         if (!Objects.equals(reqParamLastBet, "null")) {
             lastBid = reqParamLastBet;
         } else {
-            lastBid = bet;
+            lastBid = startBid;
         }
 
-        req.setAttribute("bids", allBetByLotId);
+        req.setAttribute("bids", allBidByLotId);
+        req.setAttribute("lotName", lotName);
+        req.setAttribute("lotOwner", lotOwner);
+        req.setAttribute("startBid", startBid);
         req.getRequestDispatcher("WEB-INF/jsp/lot.jsp").forward(req, resp);
     }
 
@@ -55,7 +58,7 @@ public class LotServlet extends HttpServlet {
                 .lotOwner(lotOwner)
                 .userId(user.getId())
                 .userName(user.getName())
-                .startBid(Integer.valueOf(bet))
+                .startBid(Integer.valueOf(startBid))
                 .lastBid(Integer.valueOf(lastBid))
                 .userBid(req.getParameter("userBid"))
                 .userPlacedLastBid(userPlacedLastBid)

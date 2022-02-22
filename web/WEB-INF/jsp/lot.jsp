@@ -25,7 +25,9 @@
 
             <div id="content">
                 <table>
-<%--                    <span>${requestScope.lotName}</span>--%>
+                    <h2>Lot name: ${requestScope.lotName}</h2>
+                    <h2>Lot owner: ${requestScope.lotOwner}</h2>
+                    <h2>Start bid: ${requestScope.startBid}</h2>
                     <tr>
                         <th>LOT ID</th>
                         <th>USER</th>
@@ -42,7 +44,6 @@
                         </tr>
 
                     </c:forEach>
-
 
                 </table>
             </div>
@@ -61,21 +62,6 @@
 
                 </form>
             </div>
-
-
-<%--            <c:if test="${not empty requestScope.errors}">--%>
-<%--                <div>--%>
-<%--                    <c:forEach var="error" items="${requestScope.errors}">--%>
-<%--                        <ul>--%>
-<%--                            <li><span class="alert-message">${error.message}</span></li>--%>
-<%--                        </ul>--%>
-
-<%--                    </c:forEach>--%>
-<%--                </div>--%>
-<%--            </c:if>--%>
-
-
-
 
         </div>
     </div>
