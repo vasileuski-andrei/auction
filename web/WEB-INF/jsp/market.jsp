@@ -51,6 +51,9 @@
                                 <c:when test="${lot.lotStatus eq 'SOLD'}">
                                     <td><span class="lot-status-sold">${lot.lotStatus}</span></td>
                                 </c:when>
+                                <c:when test="${lot.lotStatus eq 'NOT_SOLD'}">
+                                    <td><span class="lot-status-not-sold">NOT SOLD</span></td>
+                                </c:when>
                                 <c:otherwise>
                                     <td><span class="lot-status-sell">${lot.lotStatus}</span></td>
                                 </c:otherwise>

@@ -8,8 +8,6 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import static com.company.entity.LotStatus.SOLD;
-
 @Data
 public class LotCountdown implements Runnable {
     private Integer lotId;
@@ -34,8 +32,7 @@ public class LotCountdown implements Runnable {
 
                 if (saleTimeInSeconds == 0) {
                     timer.cancel();
-                    lotService.removeLotCountdown(lotId);
-                    lotService.updateLot(lotId, SOLD);
+                    lotService.updateLot(lotId);
                 }
             }
         }, 0, 1000);

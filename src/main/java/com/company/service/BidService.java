@@ -15,6 +15,7 @@ import lombok.NoArgsConstructor;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static java.util.stream.Collectors.toList;
 import static lombok.AccessLevel.PRIVATE;
@@ -26,18 +27,21 @@ public class BidService {
     private final CreateBidMapper createBidMapper = CreateBidMapper.getInstance();
     private final BidDao bidDao = BidDao.getInstance();
     private final PlaceBidValidator placeBidValidator = PlaceBidValidator.getInstance();
-//    private PlaceBidDto placeBidDto;
+    private final Map<Integer, Boolean> bids = new ConcurrentHashMap<>();
+    private PlaceBidDto placeBidDto;
 
-    public void placeBid(PlaceBidDto placeBidDto) throws SQLException {
-//        placeBidDto = bidDto;
+
+    public void placeBid(PlaceBidDto bidDto) throws SQLException {
+        placeBidDto = bidDto;
 
         var validationResult = placeBidValidator.validateData(placeBidDto);
         if (!validationResult.isValid()) {
             throw new ValidationException(validationResult.getErrors());
         }
 
-        var betEntity = createBidMapper.mapFrom(placeBidDto);
-        bidDao.save(betEntity);
+        var bidEntity = createBidMapper.mapFrom(placeBidDto);
+        bidDao.save(bidEntity);
+        bids.put(bidDto.getLotId(), true);
     }
 
     public List<BidDto> getAllBidByLotId(Integer id) {
@@ -51,11 +55,15 @@ public class BidService {
 
     }
 
-//    public PlaceBidDto getPlaceBidDto() {
-//        return placeBidDto;
-//    }
+    public PlaceBidDto getPlaceBidDto() {
+        return placeBidDto;
+    }
 
     public static BidService getInstance() {
         return INSTANCE;
+    }
+
+    public Map<Integer, Boolean> getBids() {
+        return bids;
     }
 }

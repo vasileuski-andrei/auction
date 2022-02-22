@@ -18,6 +18,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static com.company.entity.LotStatus.NOT_SOLD;
+import static com.company.entity.LotStatus.SOLD;
 import static java.util.stream.Collectors.*;
 import static lombok.AccessLevel.PRIVATE;
 
@@ -57,28 +59,35 @@ public class LotService {
 
     }
 
-    public void updateLot(Integer lotId, LotStatus lotStatus) {
-        var lotEntity = LotEntity.builder()
+    public void updateLot(Integer lotId) {
+        LotStatus lotStatus;
+        String lotBuyer = null;
+
+        if (bidService.getBids().size() != 0 && bidService.getBids().get(lotId)) {
+            lotStatus = SOLD;
+            lotBuyer = bidService.getPlaceBidDto().getUserName();
+        } else {
+            lotStatus = NOT_SOLD;
+        }
+
+        LotEntity lotEntity = LotEntity.builder()
                 .id(lotId)
                 .lotStatus(lotStatus)
-//                .lotBuyer(bidService.getPlaceBidDto().getUserName())
+                .lotBuyer(lotBuyer)
                 .build();
-
         lotDao.update(lotEntity);
-
+        removeLotCountdown(lotId);
     }
 
     private void runLotCountdown(String saleTerm, Integer lotId) {
         lotCountdown.put(lotId, new LotCountdown(lotId, LocalTime.parse(saleTerm).toSecondOfDay()));
-        System.out.println();
-
     }
 
     private String getRemainingLotSaleTime(Integer lotId) {
         return lotCountdown.get(lotId) != null ? lotCountdown.get(lotId).getSaleRemainingTime() : "-";
     }
 
-    public void removeLotCountdown(Integer lotId) {
+    private void removeLotCountdown(Integer lotId) {
         lotCountdown.remove(lotId);
     }
 
@@ -87,12 +96,7 @@ public class LotService {
     }
 
     public static Map<Integer, LotCountdown> getLotCountdown() {
-        System.out.println("MAP " + lotCountdown);
         return lotCountdown;
     }
-
-//    public static Optional<Map<Integer, LotCountdown>> getLotCountdown() {
-//        System.out.println("MAP " + lotCountdown);
-//        return Optional.ofNullable(lotCountdown);
 
 }
