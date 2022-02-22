@@ -44,7 +44,10 @@ public class PlaceBidValidator implements Validator<PlaceBidDto> {
 
     private void checkLotSaleTime() {
         if (lotCountdown != null && !lotCountdown.containsKey(placeBidDto.getLotId())) {
-            validationResult.add(Error.of("double-bid", "You can't place a bet after elapsed sale time"));
+            validationResult.add(Error.of("end-time", "You can't place a bid after elapsed sale time"));
+            throw new LotSaleTimeElapsedException(validationResult.getErrors());
+        } else if (lotCountdown == null) {
+            validationResult.add(Error.of("empty-lotCountdown", "You can't place a bid without sale time"));
             throw new LotSaleTimeElapsedException(validationResult.getErrors());
         }
     }
