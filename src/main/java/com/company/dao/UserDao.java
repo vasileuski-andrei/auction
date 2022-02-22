@@ -2,6 +2,8 @@ package com.company.dao;
 
 import com.company.entity.UserEntity;
 import com.company.util.ConnectionManager;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
 
 import java.sql.*;
@@ -9,14 +11,17 @@ import java.util.List;
 import java.util.Optional;
 
 import static java.sql.Statement.*;
+import static lombok.AccessLevel.*;
 
+
+@NoArgsConstructor(access = PRIVATE)
 public class UserDao implements Dao<Integer, UserEntity> {
 
     private static final UserDao INSTANCE = new UserDao();
 
-    private static final String SAVE_SQL = """
-            INSERT INTO users (name, birth_date, email, password)
-            VALUES (?, ?, ?, ?);
+    private static final String SAVE_USER_SQL = """
+            INSERT INTO users (name, birth_date, email, password, role_id)
+            VALUES (?, ?, ?, ?, ?);
             """;
 
     private static final String GET_USER_BY_EMAIL_SQL = """
@@ -36,8 +41,11 @@ public class UserDao implements Dao<Integer, UserEntity> {
             WHERE id = ?
             """;
 
-    private UserDao() {
-    }
+    private static final String FIND_ROLE_ID_BY_ROLE_NAME_SQL = """
+        SELECT id
+        FROM role
+        WHERE role = ?
+        """;
 
     @SneakyThrows
     public Optional<UserEntity> findByEmailAndPassword(String email, String password) {
@@ -57,18 +65,18 @@ public class UserDao implements Dao<Integer, UserEntity> {
 
             return Optional.ofNullable(userEntity);
         }
-
     }
 
     @Override
     public UserEntity save(UserEntity userEntity) throws SQLException {
         try (var connection = ConnectionManager.getConnection();
-             var preparedStatement = connection.prepareStatement(SAVE_SQL, RETURN_GENERATED_KEYS)) {
+             var preparedStatement = connection.prepareStatement(SAVE_USER_SQL, RETURN_GENERATED_KEYS)) {
             preparedStatement.setObject(1, userEntity.getName());
             preparedStatement.setObject(2, userEntity.getBirthDate());
             preparedStatement.setObject(3, userEntity.getEmail());
             preparedStatement.setObject(4, userEntity.getPassword());
-
+            preparedStatement.setObject(5, findIdByRole(String.valueOf(userEntity.getRole())).get());
+            System.out.println();
             preparedStatement.executeUpdate();
             var generatedKeys = preparedStatement.getGeneratedKeys();
             generatedKeys.next();
@@ -77,6 +85,26 @@ public class UserDao implements Dao<Integer, UserEntity> {
         }
 
         return userEntity;
+    }
+
+    private Optional<Integer> findIdByRole(String role) throws SQLException {
+        Integer id = null;
+
+        try (var connection = ConnectionManager.getConnection();
+             var preparedStatement = connection.prepareStatement(FIND_ROLE_ID_BY_ROLE_NAME_SQL)) {
+
+            preparedStatement.setObject(1, role);
+            var resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                id = resultSet.getObject("id", Integer.class);
+                System.out.println();
+            }
+            System.out.println();
+        }
+
+        return Optional.ofNullable(id);
+
     }
 
     @Override
@@ -97,7 +125,6 @@ public class UserDao implements Dao<Integer, UserEntity> {
 
             preparedStatement.setObject(1, id);
             var i = preparedStatement.executeUpdate();
-
         }
 
     }

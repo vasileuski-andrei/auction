@@ -20,20 +20,13 @@ public class LotDao implements Dao<Integer, LotEntity> {
 
     private static final LotDao INSTANCE = new LotDao();
 
-//    private static final String GET_ALL_LOT_SQL = """
-//            SELECT *
-//            FROM lot l
-//            JOIN status st ON l.status_id = st.id
-//            LEFT JOIN bet b ON l.id = b.lot_id
-//            """;
-
     private static final String GET_ALL_LOT_SQL = """   
         SELECT *
         FROM lot l
         JOIN status st ON l.status_id = st.id
         """;
 
-    private static final String FIND_LOT_STATUS_BY_ID_SQL = """
+    private static final String FIND_LOT_STATUS_ID_BY_STATUS_NAME_SQL = """
         SELECT id
         FROM status
         WHERE lot_status = ?
@@ -103,20 +96,6 @@ public class LotDao implements Dao<Integer, LotEntity> {
 
     }
 
-//    @SneakyThrows
-//    public void updateLotStatusById(Integer lotId, LotStatus lotStatus) {
-//        try (var connection = ConnectionManager.getConnection();
-//             var preparedStatement = connection.prepareStatement(UPDATE_LOT_BY_ID_SQL)) {
-//
-//            preparedStatement.setObject(1, findIdByLotStatusName(String.valueOf(lotStatus)).get());
-//            preparedStatement.setObject(2, lotId);
-//
-//            preparedStatement.executeUpdate();
-//
-//        }
-//
-//    }
-
     @SneakyThrows
     @Override
     public LotEntity save(LotEntity lotEntity) {
@@ -137,13 +116,13 @@ public class LotDao implements Dao<Integer, LotEntity> {
     }
 
 
-    private Optional<Integer> findIdByLotStatusName(String findId) throws SQLException {
+    private Optional<Integer> findIdByLotStatusName(String statusName) throws SQLException {
         Integer id = null;
 
         try (var connection = ConnectionManager.getConnection();
-             var preparedStatement = connection.prepareStatement(FIND_LOT_STATUS_BY_ID_SQL)) {
+             var preparedStatement = connection.prepareStatement(FIND_LOT_STATUS_ID_BY_STATUS_NAME_SQL)) {
 
-            preparedStatement.setObject(1, findId);
+            preparedStatement.setObject(1, statusName);
             var resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {

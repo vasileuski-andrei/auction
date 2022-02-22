@@ -17,4 +17,5 @@ public class UserEntity {
     private LocalDate birthDate;
     private String email;
     private String password;
+    private Role role;
 }

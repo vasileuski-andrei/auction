@@ -1,6 +1,7 @@
 package com.company.servlet;
 
 import com.company.dto.CreateUserDto;
+import com.company.entity.Role;
 import com.company.exception.CreateUserException;
 import com.company.exception.ValidationException;
 import com.company.service.UserService;
@@ -31,6 +32,7 @@ public class RegistrationServlet extends HttpServlet {
                 .email(req.getParameter("email"))
                 .password(req.getParameter("password"))
                 .passwordConfirmation(req.getParameter("password-confirm"))
+                .role(Role.USER)
                 .build();
 
         try {
