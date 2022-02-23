@@ -32,7 +32,11 @@ public class BidService {
         }
 
         var bidEntity = createBidMapper.mapFrom(placeBidDto);
-        bidDao.save(bidEntity);
+
+        synchronized (bidDao) {
+            bidDao.save(bidEntity);
+        }
+
         lastBids.put(placeBidDto.getLotId(), placeBidDto.getUserName());
     }
 
