@@ -217,7 +217,7 @@ html, body {
 /*aside*/
 .aside {
   display: table-cell;
-  width: 228px;
+  width: 210px;
   /*width: 10%;*/
   height: 100%;
 }

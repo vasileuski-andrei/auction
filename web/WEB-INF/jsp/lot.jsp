@@ -46,7 +46,7 @@
                             <tr>
                                 <td>${bid.userName}</td>
                                 <td>${bid.userBid} $</td>
-                                <td>-</td>
+                                <td>${bid.dateTime}</td>
                             </tr>
 
                         </c:forEach>

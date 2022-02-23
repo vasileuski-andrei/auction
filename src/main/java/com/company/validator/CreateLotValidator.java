@@ -1,7 +1,7 @@
 package com.company.validator;
 
 import com.company.dto.CreateLotDto;
-import com.company.util.LocalTimeFormatter;
+import com.company.util.LocalDateTimeFormatter;
 import lombok.NoArgsConstructor;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -45,7 +45,7 @@ public class CreateLotValidator implements Validator<CreateLotDto> {
     }
 
     private void checkSaleTerm() {
-        if (!LocalTimeFormatter.isValid(createLotDto.getSaleTerm())) {
+        if (!LocalDateTimeFormatter.isTimeValid(createLotDto.getSaleTerm(), "HH:mm")) {
             validationResult.add(Error.of("invalid-time", "Invalid time format."));
         }
     }

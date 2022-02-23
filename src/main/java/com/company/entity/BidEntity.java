@@ -2,6 +2,8 @@ package com.company.entity;
 
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -13,4 +15,5 @@ public class BidEntity {
     private Integer lotId;
     private String userName;
     private Integer userBid;
+    private LocalDateTime dateTime;
 }

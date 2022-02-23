@@ -7,6 +7,7 @@ import lombok.SneakyThrows;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,12 +20,12 @@ public class BidDao implements Dao<Integer, BidEntity> {
     private static final BidDao INSTANCE = new BidDao();
 
     private static final String PLACE_BET_SQL = """
-            INSERT INTO bid (lot_name, lot_id, user_name, user_bid)
-            VALUES (?, ?, ?, ?);
+            INSERT INTO bid (lot_name, lot_id, user_name, user_bid, date)
+            VALUES (?, ?, ?, ?, ?);
             """;
 
     private static final String GET_BET_BY_ID_SQL = """
-            SELECT id, lot_name, lot_id, user_name, user_bid
+            SELECT id, lot_name, lot_id, user_name, user_bid, date
             FROM bid
             WHERE lot_id = ?
             """;
@@ -75,6 +76,7 @@ public class BidDao implements Dao<Integer, BidEntity> {
             preparedStatement.setObject(2, bidEntity.getLotId());
             preparedStatement.setObject(3, bidEntity.getUserName());
             preparedStatement.setObject(4, bidEntity.getUserBid());
+            preparedStatement.setObject(5, LocalDateTime.now());
 
             preparedStatement.executeUpdate();
             var generatedKeys = preparedStatement.getGeneratedKeys();
@@ -98,6 +100,7 @@ public class BidDao implements Dao<Integer, BidEntity> {
                 .lotId(resultSet.getObject("lot_id", Integer.class))
                 .userName(resultSet.getObject("user_name", String.class))
                 .userBid(resultSet.getObject("user_bid", Integer.class))
+                .dateTime(resultSet.getObject("date", LocalDateTime.class))
                 .build();
     }
 }

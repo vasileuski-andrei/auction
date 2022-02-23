@@ -2,7 +2,7 @@ package com.company.mapper;
 
 import com.company.dto.CreateUserDto;
 import com.company.entity.UserEntity;
-import com.company.util.LocalDateFormatter;
+import com.company.util.LocalDateTimeFormatter;
 
 public class CreateUserMapper implements Mapper<CreateUserDto, UserEntity> {
 
@@ -15,7 +15,7 @@ public class CreateUserMapper implements Mapper<CreateUserDto, UserEntity> {
     public UserEntity mapFrom(CreateUserDto object) {
         return UserEntity.builder()
                 .name(object.getName())
-                .birthDate(LocalDateFormatter.format(object.getBirthday()))
+                .birthDate(LocalDateTimeFormatter.convertStringToLocalDate(object.getBirthday(), "yyyy-MM-dd"))
                 .email(object.getEmail())
                 .password(object.getPassword())
                 .role(object.getRole())

@@ -12,4 +12,5 @@ public class BidDto {
     private Integer lotId;
     private String userName;
     private Integer userBid;
+    private String dateTime;
 }

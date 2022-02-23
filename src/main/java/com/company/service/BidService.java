@@ -5,6 +5,7 @@ import com.company.dto.BidDto;
 import com.company.dto.PlaceBidDto;
 import com.company.exception.ValidationException;
 import com.company.mapper.CreateBidMapper;
+import com.company.util.LocalDateTimeFormatter;
 import com.company.validator.PlaceBidValidator;
 import lombok.NoArgsConstructor;
 
@@ -47,6 +48,7 @@ public class BidService {
                 .lotId(bidEntity.getLotId())
                 .userName(bidEntity.getUserName())
                 .userBid(bidEntity.getUserBid())
+                .dateTime(LocalDateTimeFormatter.convertLocalDateTimeToString(bidEntity.getDateTime(), "HH:mm yyyy-MM-dd"))
                 .build()).collect(toList());
 
     }

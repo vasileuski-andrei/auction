@@ -1,7 +1,7 @@
 package com.company.validator;
 
 import com.company.dto.CreateUserDto;
-import com.company.util.LocalDateFormatter;
+import com.company.util.LocalDateTimeFormatter;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -32,13 +32,13 @@ public class CreateUserValidator implements Validator<CreateUserDto> {
             validationResult.add(Error.of("invalid-username", "Username should be at least 3 characters and max 20 characters."));
         }
 
-        if (!username.matches("[a-z]\\w+")) {
+        if (!username.matches("[a-zA-Z]\\w+")) {
             validationResult.add(Error.of("invalid-char", "Username can contain letter, number and _ First character should be a letter."));
         }
     }
 
     private void checkUserDateOfBirth() {
-        if (!LocalDateFormatter.isValid(createUserDto.getBirthday())) {
+        if (!LocalDateTimeFormatter.isDateValid(createUserDto.getBirthday(), "yyyy-MM-dd")) {
             validationResult.add(Error.of("invalid-birthday", "Invalid date format."));
         }
     }
