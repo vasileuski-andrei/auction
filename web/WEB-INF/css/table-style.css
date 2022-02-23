@@ -90,3 +90,8 @@ tr:last-child td.last {
 	color: gray;
 	font-weight: bold;
 }
+
+.name-of-user-in-last-bid-column {
+	font-size: 90%;
+	color: gray;
+}

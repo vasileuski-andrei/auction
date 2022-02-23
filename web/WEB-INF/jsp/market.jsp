@@ -41,7 +41,12 @@
                             <td>${lot.startBid} $</td>
                             <c:choose>
                                 <c:when test="${lot.lastBid != 'null'}">
-                                    <td>${lot.lastBid} $</td>
+                                    <td>
+                                        <div>${lot.lastBid} $</div>
+                                        <div class="name-of-user-in-last-bid-column">${lot.userWhoMadeLastBid}</div>
+
+                                    </td>
+
                                 </c:when>
                                 <c:otherwise>
                                     <td>-</td>

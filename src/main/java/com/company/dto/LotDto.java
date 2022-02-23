@@ -14,5 +14,6 @@ public class LotDto {
     private String startBid;
     private String lastBid;
     private String time;
+    private String userWhoMadeLastBid;
 
 }

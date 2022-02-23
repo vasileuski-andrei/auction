@@ -20,8 +20,8 @@ public class LotDao implements Dao<Integer, LotEntity> {
 
     private static final LotDao INSTANCE = new LotDao();
 
-    private static final String GET_ALL_LOT_SQL = """   
-        SELECT *
+    private static final String GET_ALL_LOT_SQL = """
+        SELECT l.id, l.lot_name, l.owner, l.start_bid, l.status_id, st.lot_status
         FROM lot l
         JOIN status st ON l.status_id = st.id
         """;
@@ -32,11 +32,19 @@ public class LotDao implements Dao<Integer, LotEntity> {
         WHERE lot_status = ?
         """;
 
-    private static final String GET_LAST_BET_BY_ID_SQL = """
+    private static final String GET_LAST_BID_BY_ID_SQL = """
         SELECT MAX(user_bid) as last_bid
         FROM bid
         WHERE lot_id = ?
         """;
+
+    private static final String GET_USER_WHO_MADE_LAST_BID_SQL = """
+        SELECT user_name as username
+        FROM bid
+        WHERE lot_id = ?
+        ORDER BY user_bid DESC
+        LIMIT 1
+            """;
 
     private static final String ADD_NEW_LOT_SQL = """
         INSERT INTO lot (lot_name, owner, status_id, start_bid)
@@ -52,20 +60,16 @@ public class LotDao implements Dao<Integer, LotEntity> {
     @SneakyThrows
     @Override
     public List<LotEntity> findAll() {
-
         List<LotEntity> lots = new ArrayList<>();
 
         try (var connection = ConnectionManager.getConnection();
             var preparedStatement= connection.prepareStatement(GET_ALL_LOT_SQL)) {
-
-
             var resultSet = preparedStatement.executeQuery();
             LotEntity lotEntity = null;
 
             while (resultSet.next()) {
                 lots.add(buildEntity(resultSet));
             }
-
         }
         return lots;
     }
@@ -85,15 +89,12 @@ public class LotDao implements Dao<Integer, LotEntity> {
     public void update(LotEntity entity) {
         try (var connection = ConnectionManager.getConnection();
              var preparedStatement = connection.prepareStatement(UPDATE_LOT_BY_ID_SQL)) {
-
             preparedStatement.setObject(1, findIdByLotStatusName(String.valueOf(entity.getLotStatus())).get());
             preparedStatement.setObject(2, entity.getLotBuyer());
             preparedStatement.setObject(3, entity.getId());
 
             preparedStatement.executeUpdate();
-
         }
-
     }
 
     @SneakyThrows
@@ -121,58 +122,70 @@ public class LotDao implements Dao<Integer, LotEntity> {
 
         try (var connection = ConnectionManager.getConnection();
              var preparedStatement = connection.prepareStatement(FIND_LOT_STATUS_ID_BY_STATUS_NAME_SQL)) {
-
             preparedStatement.setObject(1, statusName);
             var resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
                 id = resultSet.getObject("id", Integer.class);
             }
-
         }
 
         return Optional.ofNullable(id);
-
     }
 
-    private Integer getLastBet(Integer lotId) throws SQLException {
+    private Integer getLastBid(Integer lotId) {
         Integer id = null;
 
         try (var connection = ConnectionManager.getConnection();
-             var preparedStatement = connection.prepareStatement(GET_LAST_BET_BY_ID_SQL)) {
-
+             var preparedStatement = connection.prepareStatement(GET_LAST_BID_BY_ID_SQL)) {
             preparedStatement.setObject(1, lotId);
             var resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
                 id = resultSet.getObject("last_bid", Integer.class);
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
         return id;
-
     }
 
+    private String getUserNameWhoMadeLastBid(Integer lotId) {
+        String username = null;
+
+        try (var connection = ConnectionManager.getConnection();
+             var preparedStatement = connection.prepareStatement(GET_USER_WHO_MADE_LAST_BID_SQL)) {
+            preparedStatement.setObject(1, lotId);
+            var resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                username = resultSet.getObject("username", String.class);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return username;
+    }
 
     @SneakyThrows
     private LotEntity buildEntity (ResultSet resultSet) {
-
+        Integer lotId = resultSet.getObject("id", Integer.class);
         return LotEntity.builder()
                 .id(resultSet.getObject("id", Integer.class))
                 .lotName(resultSet.getObject("lot_name", String.class))
                 .owner(resultSet.getObject("owner", String.class))
                 .lotStatus(LotStatus.valueOf(resultSet.getObject("lot_status", String.class)))
                 .startBid(resultSet.getObject("start_bid", Integer.class))
-                .lastBid(getLastBet(resultSet.getObject("id", Integer.class)))
+                .lastBid(getLastBid(lotId))
+                .userWhoMadeLastBid(getUserNameWhoMadeLastBid(lotId))
                 .build();
     }
 
     public static LotDao getInstance () {
         return INSTANCE;
     }
-
 
 }

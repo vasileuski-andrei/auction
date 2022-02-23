@@ -41,8 +41,8 @@ public class LotService {
                 .startBid(String.valueOf(lotDao.getStartBid()))
                 .lastBid(String.valueOf(lotDao.getLastBid()))
                 .time(getRemainingLotSaleTime(lotDao.getId()))
+                .userWhoMadeLastBid(lotDao.getUserWhoMadeLastBid())
                 .build()).collect(toList());
-
     }
 
     @SneakyThrows
