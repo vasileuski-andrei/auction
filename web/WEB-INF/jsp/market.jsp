@@ -18,7 +18,7 @@
 
     <div class="content-wrapper">
 
-        <aside class="aside"><a href="#">О нас</a><a href="#">Гарантия и сервис</a><a href="#">Сотрудничество с нами</a></aside>
+        <aside class="aside"><a href="#">About us</a><a href="#">Delivery</a><a href="#">FAQ</a></aside>
 
         <div class="first-section">
 

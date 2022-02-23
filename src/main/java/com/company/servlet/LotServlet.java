@@ -46,6 +46,7 @@ public class LotServlet extends HttpServlet {
         req.setAttribute("lotName", lotName);
         req.setAttribute("lotOwner", lotOwner);
         req.setAttribute("startBid", startBid);
+        req.setAttribute("lastBid", lastBid);
         req.getRequestDispatcher("WEB-INF/jsp/lot.jsp").forward(req, resp);
     }
 

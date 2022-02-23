@@ -11,15 +11,15 @@
 
 </head>
 <body>
-<!--page-wrapper-->
+
 <div class="page-wrapper">
-    <!--HEADER-->
+
     <%@include file="header.jsp"%>
-    <!--CONTENT-->
+
     <div class="content-wrapper">
-        <!--aside-->
-        <aside class="aside"><a href="#">О нас</a><a href="#">Гарантия и сервис</a><a href="#">Сотрудничество с нами</a></aside>
-        <!--first-section-->
+
+        <aside class="aside"><a href="#">About us</a><a href="#">Delivery</a><a href="#">FAQ</a></aside>
+
         <div class="first-section">
 
             <div class="wrap-login100 p-t-50 p-b-90">
@@ -71,11 +71,8 @@
                     </div>
 
                 </form>
-
             </div>
-
         </div>
-
     </div>
 
     <%@include file="footer.jsp"%>

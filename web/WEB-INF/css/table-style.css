@@ -29,7 +29,10 @@ a {color:#666;}
 #content {
 	width:85%;
 	max-width:900px;
-	margin:6% auto 0;}
+	margin:6% auto 0;
+	display: table;
+
+}
 
 table {
 	overflow:hidden;
@@ -94,4 +97,8 @@ tr:last-child td.last {
 .name-of-user-in-last-bid-column {
 	font-size: 90%;
 	color: gray;
+}
+
+.lot-info {
+	display: table-cell;
 }

@@ -211,13 +211,14 @@ html, body {
   max-width: 1600px;
   min-width: 980px;
   /*padding-top: 40px;*/
+  /*display: flex;*/
 }
 
 /*aside*/
 .aside {
   display: table-cell;
-  /*width: 251px;*/
-  width: 10%;
+  width: 228px;
+  /*width: 10%;*/
   height: 100%;
 }
 

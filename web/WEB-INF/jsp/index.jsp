@@ -10,16 +10,15 @@
 
 </head>
 <body>
-<!--page-wrapper-->
+
 <div class="page-wrapper">
 
-    <!--HEADER-->
     <%@include file="header.jsp"%>
-    <!--CONTENT-->
+
     <div class="content-wrapper">
-        <!--aside-->
+
         <aside class="aside"><a href="#">About us</a><a href="#">Delivery</a><a href="#">FAQ</a></aside>
-        <!--first-section-->
+
         <div class="first-section">
             <h1>What Is an Auction?</h1>
             <p>An auction is a sales event wherein potential buyers place competitive bids on assets or services either in an open or closed format. Auctions are popular because buyers and sellers believe they will get a good deal buying or selling assets.</p>
@@ -42,7 +41,6 @@
         </div>
     </div>
 
-    <!--FOOTER-->
     <%@include file="footer.jsp"%>
 </div>
 </body>
