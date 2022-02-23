@@ -15,7 +15,6 @@ import lombok.SneakyThrows;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static com.company.entity.LotStatus.NOT_SOLD;
@@ -63,9 +62,9 @@ public class LotService {
         LotStatus lotStatus;
         String lotBuyer = null;
 
-        if (bidService.getBids().size() != 0 && bidService.getBids().get(lotId)) {
+        if (bidService.getLastBids().size() != 0 && bidService.getLastBids().get(lotId) != null) {
             lotStatus = SOLD;
-            lotBuyer = bidService.getPlaceBidDto().getUserName();
+            lotBuyer = bidService.getLastBids().get(lotId);
         } else {
             lotStatus = NOT_SOLD;
         }
@@ -77,6 +76,7 @@ public class LotService {
                 .build();
         lotDao.update(lotEntity);
         removeLotCountdown(lotId);
+        bidService.getLastBids().remove(lotId);
     }
 
     private void runLotCountdown(String saleTerm, Integer lotId) {
@@ -95,8 +95,8 @@ public class LotService {
         return INSTANCE;
     }
 
-    public static Map<Integer, LotCountdown> getLotCountdown() {
-        return lotCountdown;
+    public Boolean isTheLotStillSale(int id) {
+        return lotCountdown.containsKey(id);
     }
 
 }

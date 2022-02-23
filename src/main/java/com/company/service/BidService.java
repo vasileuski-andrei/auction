@@ -3,13 +3,9 @@ package com.company.service;
 import com.company.dao.BidDao;
 import com.company.dto.BidDto;
 import com.company.dto.PlaceBidDto;
-import com.company.exception.LotSaleTimeElapsedException;
 import com.company.exception.ValidationException;
 import com.company.mapper.CreateBidMapper;
-import com.company.util.LotCountdown;
-import com.company.validator.Error;
 import com.company.validator.PlaceBidValidator;
-import com.company.validator.ValidationResult;
 import lombok.NoArgsConstructor;
 
 import java.sql.SQLException;
@@ -27,13 +23,9 @@ public class BidService {
     private final CreateBidMapper createBidMapper = CreateBidMapper.getInstance();
     private final BidDao bidDao = BidDao.getInstance();
     private final PlaceBidValidator placeBidValidator = PlaceBidValidator.getInstance();
-    private final Map<Integer, Boolean> bids = new ConcurrentHashMap<>();
-    private PlaceBidDto placeBidDto;
+    private final Map<Integer, String> lastBids = new ConcurrentHashMap<>();
 
-
-    public void placeBid(PlaceBidDto bidDto) throws SQLException {
-        placeBidDto = bidDto;
-
+    public void placeBid(PlaceBidDto placeBidDto) throws SQLException {
         var validationResult = placeBidValidator.validateData(placeBidDto);
         if (!validationResult.isValid()) {
             throw new ValidationException(validationResult.getErrors());
@@ -41,7 +33,7 @@ public class BidService {
 
         var bidEntity = createBidMapper.mapFrom(placeBidDto);
         bidDao.save(bidEntity);
-        bids.put(bidDto.getLotId(), true);
+        lastBids.put(placeBidDto.getLotId(), placeBidDto.getUserName());
     }
 
     public List<BidDto> getAllBidByLotId(Integer id) {
@@ -55,15 +47,11 @@ public class BidService {
 
     }
 
-    public PlaceBidDto getPlaceBidDto() {
-        return placeBidDto;
-    }
-
     public static BidService getInstance() {
         return INSTANCE;
     }
 
-    public Map<Integer, Boolean> getBids() {
-        return bids;
+    public Map<Integer, String> getLastBids() {
+        return lastBids;
     }
 }

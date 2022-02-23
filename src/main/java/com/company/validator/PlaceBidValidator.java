@@ -4,7 +4,6 @@ import com.company.dto.PlaceBidDto;
 import com.company.exception.LotSaleTimeElapsedException;
 import com.company.exception.ValidationException;
 import com.company.service.LotService;
-import com.company.util.LotCountdown;
 import lombok.NoArgsConstructor;
 
 import java.util.*;
@@ -16,7 +15,7 @@ public class PlaceBidValidator implements Validator<PlaceBidDto> {
 
     private static final PlaceBidValidator INSTANCE = new PlaceBidValidator();
     private static final Map<Integer, List<Integer>> lotIdsAndBiddersIds = new HashMap<>();
-    private final Map<Integer, LotCountdown> lotCountdown = LotService.getLotCountdown();
+    private static final LotService lotService = LotService.getInstance();
 
     private PlaceBidDto placeBidDto;
     private ValidationResult validationResult;
@@ -43,14 +42,11 @@ public class PlaceBidValidator implements Validator<PlaceBidDto> {
     }
 
     private void checkLotSaleTime() {
-        if (lotCountdown != null && !lotCountdown.containsKey(placeBidDto.getLotId())) {
+        if (!lotService.isTheLotStillSale(placeBidDto.getLotId())) {
             validationResult.add(Error.of("end-time", "You can't place a bid after elapsed sale time"));
             throw new LotSaleTimeElapsedException(validationResult.getErrors());
         }
-//        else if (lotCountdown == null) {
-//            validationResult.add(Error.of("empty-lotCountdown", "You can't place a bid without sale time"));
-//            throw new LotSaleTimeElapsedException(validationResult.getErrors());
-//        }
+
     }
 
     private void checkDoubleBidInARow() {
