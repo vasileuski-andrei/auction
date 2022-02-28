@@ -2,7 +2,6 @@ package com.company.servlet;
 
 import com.company.dto.CreateUserDto;
 import com.company.entity.Role;
-import com.company.exception.CreateUserException;
 import com.company.exception.ValidationException;
 import com.company.service.UserService;
 import jakarta.servlet.ServletException;
@@ -37,6 +36,10 @@ public class RegistrationServlet extends HttpServlet {
 
         try {
             userService.create(userDto);
+
+//            req.getSession().setAttribute("user", userDto);
+
+            String regCode = userService.confirmCreatedAccount(userDto.getEmail());
             resp.sendRedirect("/login");
         } catch (ValidationException e) {
             req.setAttribute("errors", e.getErrors());

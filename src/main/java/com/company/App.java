@@ -1,29 +1,21 @@
 package com.company;
 
-import com.company.dao.LotDao;
-import com.company.dao.UserDao;
-import com.company.entity.LotEntity;
-import com.company.util.ConnectionManager;
-
-import java.util.List;
+import com.company.util.SendEmailUtil;
 
 /**
  * Hello world!
  */
 public class App {
 
+    private static final String MESSAGE_TO_CONFIRM_REGISTRATION = "Click here to confirm email: <a href=http://localhost:8080/login?confirm=";
+
     public static void main(String[] args) {
-//        try {
-//            var all = LotDao.getInstance().findAll();
-//            System.out.println(all.get(0).toString());
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
 
 
 
-
-
+//        String registrationKey = "jdsodsjks1212ds";
+//        String message = MESSAGE_TO_CONFIRM_REGISTRATION + registrationKey + ">link</a>";
+//        SendEmailUtil.sendEmail("batterista@yandex.ru", message);
 
     }
 }

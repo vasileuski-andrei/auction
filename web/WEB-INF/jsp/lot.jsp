@@ -38,7 +38,7 @@
 
                         <tr>
                             <th>USER</th>
-                            <th>ALL BET</th>
+                            <th>BID</th>
                             <th>TIME</th>
                         </tr>
                         <c:forEach var="bid" items="${requestScope.bids}">
@@ -58,7 +58,7 @@
                 <div class="wrap-bet-form">
                     <form class="login100-form validate-form flex-sb flex-w" action="${pageContext.request.contextPath}/lot" method="post">
 
-                        <div class="wrap-input100 validate-input m-b-16">
+                        <div class="wrap-input100 validate-input">
                             <input class="input100" type="text" name="userBid" placeholder="Sum" required>
                             <span class="focus-input100"></span>
                         </div>
